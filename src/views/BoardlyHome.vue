@@ -3,8 +3,8 @@
         <nav>
             <BoardlyHeader/>
         </nav>
-        <div class="sidebar">
-            <BoardlySidebar/>
+        <div class="sidebar" v-if="sidebarActive">
+            <BoardlySidebar v-if="sidebarActive"/>
         </div>
         <main>
             <BoardlyBoard :board="store.board"/>
@@ -22,6 +22,9 @@ import Board from '../models/Board.js'
 import User from '../models/User.js'
 
 import store from '../store/store.js'
+import { ref } from 'vue'
+
+const sidebarActive = ref(false)
 
 // define user to default when user is no logged and is no saved in localStorage
 if(store.user==null){
@@ -58,8 +61,8 @@ store.board = board
     display: grid;
     grid-template-areas: 
             "nav nav nav"
-            "sidebar main main"
-            "sidebar main main";
+            "main main main"
+            "main main main";
     grid-template-columns: 12rem 1fr;
     grid-template-rows: 6rem 1fr;
 }
