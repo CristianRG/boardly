@@ -1,12 +1,12 @@
 <template>
     <div class="form-group">
         <label for="title">Titulo</label>
-        <input type="text" id="title" class="form-control" placeholder="Titulo" 
+        <input type="text" id="title" class="form-control" 
         v-model="titleActivity">
     </div>
     <div class="form-group">
         <label for="content">Contenido</label>
-        <textarea id="content" class="form-control" placeholder="Contenido" rows="5"
+        <textarea id="content" class="form-control" rows="5"
             v-model="contentActivity"></textarea>
     </div>
     <div class="button-group">
@@ -81,13 +81,14 @@ label {
 input[type="text"],
 textarea {
     border: none;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid var(--text-color);
     outline: none;
     width: 100%;
     padding: 5px 0;
     font-size: 16px;
     background: none;
     transition: border-color 0.3s ease;
+    color: var(--text-color);
 }
 
 textarea {
@@ -109,15 +110,15 @@ textarea:focus {
 }
 
 .btn-cancelar {
-    background: #1a1822;
+    background: var(--text-color-danger);
     color: white;
     margin-right: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--text-color);
 }
 
 .btn-aceptar {
-    background: #623EE6;
+    background: var(--text-color-success);
     color: white;
-    border: 1px solid #ccc;
+    border: 1px solid var(--text-color);
 }
 </style>

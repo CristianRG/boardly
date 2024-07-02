@@ -35,7 +35,7 @@ const props = defineProps({
     row-gap: 10px;
     margin-top: 10px;
     padding: 10px;
-    background: #272433;
+    background: var(--section-color);
     border-radius: 10px;
 }
 .section-activityes {
@@ -44,4 +44,12 @@ const props = defineProps({
     flex-direction: column;
     row-gap: 10px;
 }
+
+/* Media query to resize section to 15rem width when display width is less that 370px */
+@media (max-width: 390px) {
+    #section {
+        width: 15rem;
+    }
+}
+
 </style>

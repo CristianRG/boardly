@@ -31,13 +31,14 @@ let modalActive = ref(false)
     display: flex;
     align-items: center;
     border-radius: 5px;
-    background: #35333C;
+    border: 1px solid var(--text-color);
+    background: var(--section-color);
     overflow: hidden;
 
 }
 
 h4 {
-    color: white;
+    color: var(--text-color);
     font-size: 18px;
     margin: 0%;
     padding: 0 10px 0 10px;

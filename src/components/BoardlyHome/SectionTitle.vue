@@ -107,7 +107,7 @@ function deleteBoard(){
 }
 
 h4 {
-    color: #fff;
+    color: var(--text-color);
     font-size: 20px;
     font-weight: bold;
     margin: 0;
@@ -115,7 +115,7 @@ h4 {
 
 h4:focus {
     outline: none;
-    border-bottom: 1px solid #fff;
+    border-bottom: 1px solid var(--primary-color);
 }
 
 #options {

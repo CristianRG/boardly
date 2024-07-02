@@ -18,6 +18,6 @@ div {
 svg {
     width: 20px;
     height: fit-content;
-    fill: #fff;
+    fill: var(--text-color);
 }
 </style>

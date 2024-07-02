@@ -32,8 +32,8 @@ let openAddModal = ref(false)
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background: #623EE6;
-        border-radius: 10px;
+        background: var(--primary-color);
+        border-radius: 5px;
     }
 
     h4 {

@@ -46,16 +46,17 @@ function close() {
 }
 
 .modal-content {
-    background: #1a1822;;
+    background: var(--modal-color);
     margin: 15% auto;
     padding: 20px;
-    border: 1px solid #888;
+    border: 1px solid var(--text-color);
     border-radius: 5px;
     max-width: 400px;
+    color: var(--text-color);
 }
 
 .close {
-    color: #aaa;
+    color: var(--text-color);
     float: right;
     font-size: 28px;
     font-weight: bold;
@@ -64,7 +65,7 @@ function close() {
 
 .close:hover,
 .close:focus {
-    color: black;
+    color: var(--text-color-danger);
     text-decoration: none;
     cursor: pointer;
 }
