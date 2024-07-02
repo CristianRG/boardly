@@ -1,6 +1,7 @@
 <template>
     <div id="mainpage">
         <BoardlySidebar :board="store.board"/>
+        <BoardlyHeader />
         <main>
             <BoardlyBoard :board="store.board" />
         </main>
@@ -57,12 +58,16 @@ store.board = board
 }
 
 main {
+    display: flex;
+    flex-direction: column;
     height: 100%;
     width: 100%;
     background-color: var(--body-color);
     transition: var(--tran-05);
     overflow-x: scroll;
     overflow-y: scroll;
+    margin-top: 4rem;
+    padding-top: 10px;
     /* background: #35333C; */
 }
 

@@ -242,3 +242,7 @@ body.dark {
     opacity: 1;
   }
 }
+
+.sidebar li a:hover .icon svg {
+  fill: var(--sidebar-color);
+}

@@ -26,43 +26,29 @@
                 <ul class="menu-links">
                     <li class="nav-link">
                         <a href="#">
-                            <i class="bx bx-home-alt icon"></i>
-                            <span class="text nav-text">Dashboard</span>
+                            <Home class="icon"/>
+                            <span class="text nav-text">Home</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
                         <a href="#">
-                            <i class="bx bx-bar-chart-alt-2 icon"></i>
-                            <span class="text nav-text">Revenue</span>
+                            <BoardlyUsers class="icon"/>
+                            <span class="text nav-text">Members</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
                         <a href="#">
-                            <i class="bx bx-bell icon"></i>
-                            <span class="text nav-text">Notifications</span>
+                            <BoardIcon class="icon"/>
+                            <span class="text nav-text">Board</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
                         <a href="#">
-                            <i class="bx bx-pie-chart-alt icon"></i>
-                            <span class="text nav-text">Analytics</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-link">
-                        <a href="#">
-                            <i class="bx bx-heart icon"></i>
-                            <span class="text nav-text">Likes</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-link">
-                        <a href="#">
-                            <Edit class="icon" />
-                            <span class="text nav-text">Wallets</span>
+                            <Settings class="icon"/>
+                            <span class="text nav-text">Settings</span>
                         </a>
                     </li>
                 </ul>
@@ -71,7 +57,7 @@
             <div class="bottom-content">
                 <li>
                     <a href="#">
-                        <i class="bx bx-log-out icon"></i>
+                        <LogOut class="icon"/>
                         <span class="text nav-text">Logout</span>
                     </a>
                 </li>
@@ -95,7 +81,11 @@
 <script setup>
 import { onMounted, defineProps } from 'vue'
 
-import Edit from '../icons/Edit.vue'
+import Home from '../icons/Home.vue';
+import BoardlyUsers from '../icons/BoardlyUsers.vue';
+import Settings from '../icons/Settings.vue';
+import BoardIcon from '../icons/BoardIcon.vue';
+import LogOut from '../icons/LogOut.vue';
 
 import Board from '../../models/Board'
 

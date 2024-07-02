@@ -4,7 +4,7 @@
             <BoardlyBanner/>
         </div>
         <div class="options">
-            <BoardlyUser/>
+            <BoardlyUser :user="store.user"/>
         </div>
     </div>
 </template>
@@ -12,15 +12,21 @@
 <script setup>
 import BoardlyBanner from '../icons/BoardlyBanner.vue';
 import BoardlyUser from '../icons/BoardlyUser.vue';
+import store from '../../store/store';
 </script>
 
 <style scoped>
     #nav-header {
-        width: 100%;
-        height: 100%;
+        position: fixed;
+        left: 90px;
+        z-index: 10;
+        width: calc(100% - 90px);
+        height: 4rem;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+        align-items: center;
+        background: var(--sidebar-color);
     }
 
     .banner {
@@ -29,7 +35,8 @@ import BoardlyUser from '../icons/BoardlyUser.vue';
     }
 
     .options {
-        width: 80px;
-        height: 100%;
+        width: 4rem;
+        height: 3.7rem;
+        margin-right: 5px;
     }
 </style>

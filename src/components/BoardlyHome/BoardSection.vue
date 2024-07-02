@@ -33,7 +33,6 @@ const props = defineProps({
     display: grid;
     grid-template-rows: 2rem 1fr 3rem;
     row-gap: 10px;
-    margin-top: 10px;
     padding: 10px;
     background: var(--section-color);
     border-radius: 10px;
