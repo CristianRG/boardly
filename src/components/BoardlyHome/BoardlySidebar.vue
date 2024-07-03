@@ -55,10 +55,18 @@
             </div>
 
             <div class="bottom-content">
-                <li>
+                <li v-if="store.logged" >
                     <a href="#">
                         <LogOut class="icon"/>
                         <span class="text nav-text">Logout</span>
+                    </a>
+                </li>
+
+                <li v-if="!store.logged">
+                    <a href="#">
+                        <div class="signup icon"
+                        style="font-size: 13px; background: var(--primary-color); color: #fff; width: 100%;"
+                        >Sign up</div>
                     </a>
                 </li>
 
@@ -80,6 +88,7 @@
 
 <script setup>
 import { onMounted, defineProps } from 'vue'
+import store from '../../store/store';
 
 import Home from '../icons/Home.vue';
 import BoardlyUsers from '../icons/BoardlyUsers.vue';
@@ -137,7 +146,7 @@ const props = defineProps({
 
 .sidebar {
     height: 100%;
-    width: 500px;
+    width: 250px;
     padding: 10px 14px;
     background: var(--sidebar-color);
     transition: var(--tran-05);

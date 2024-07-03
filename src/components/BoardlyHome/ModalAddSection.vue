@@ -5,22 +5,19 @@
             @click="close()"
             >&times;</span>
             <h2>{{ title }}</h2>
-            <ModalAdd :boardSectionId="boardSectionId" @closeAdd="close()"/>
+            <ModalSection  @closeAdd="close()"/>
         </div>
     </div>
 </template>
 <script setup>
 import { defineEmits, defineProps, ref } from 'vue'
-import ModalAdd from '../BoardlyHome/ModalAdd.vue'
+import ModalSection from './ModalSection.vue';
 
 const props = defineProps({
-    title: String,
-    boardSectionId: String
+    title: String
 })
 
 let title = ref(props.title)
-
-const boardSectionId = props.boardSectionId
 
 const emit = defineEmits(['close'])
 

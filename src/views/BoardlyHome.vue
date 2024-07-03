@@ -60,7 +60,7 @@ store.board = board
 main {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: calc(100% - 4rem);
     width: 100%;
     background-color: var(--body-color);
     transition: var(--tran-05);
@@ -71,8 +71,4 @@ main {
     /* background: #35333C; */
 }
 
-.sidebar.close~main{
-    left: 78px;
-    height: 100vh;
-}
 </style>

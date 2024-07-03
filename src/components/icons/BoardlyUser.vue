@@ -24,7 +24,6 @@ const props = defineProps({
         justify-content: center;
         align-items: center;
         border-radius: 50%;
-        border: 1px solid var(--text-color);
         padding: 2px;
     }
 

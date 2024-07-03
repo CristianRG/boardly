@@ -4,11 +4,12 @@
         v-for="section in board.sections" :key="section.id"
         :section="section"
         />
-        
+        <SectionAddNew />
     </div>
 </template>
 <script setup>
 import BoardSection from './BoardSection.vue'
+import SectionAddNew from './SectionAddNew.vue';
 import { defineProps } from 'vue'
 
 import Board from '../../models/Board'

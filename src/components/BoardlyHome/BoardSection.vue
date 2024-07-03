@@ -7,13 +7,13 @@
             :activity="activity" :boardSectionId="section.id"
             />
         </div>
-        <SectionAddNew :boardSectionId="section.id"/>
+        <ActivityAddNew :boardSectionId="section.id"/>
     </div>
 </template>
 <script setup>
 import SectionTitle from './SectionTitle.vue';
 import SectionActivity from './SectionActivity.vue';
-import SectionAddNew from './SectionAddNew.vue';
+import ActivityAddNew from './ActivityAddNew.vue';
 import { defineProps } from 'vue';
 import BoardSection from '../../models/BoardSection.js';
 
