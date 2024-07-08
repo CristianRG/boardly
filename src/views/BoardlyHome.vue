@@ -1,18 +1,20 @@
 <template>
     <div id="mainpage">
-        <BoardlySidebar :board="store.board"/>
-        <BoardlyHeader />
+        <!-- <BoardlySidebar :board="store.board"/> -->
+        <BoardlyHeader style="left: 0px; width: 100%;"/>
         <main>
-            <BoardlyBoard :board="store.board" />
+            <BoardlyBoards />
+            <!-- <BoardlyBoard :board="store.board" /> -->
         </main>
     </div>
 </template>
 
 <script setup>
 
-import BoardlyHeader from '../components/BoardlyHome/BoardlyHeader.vue'
-import BoardlyBoard from '../components/BoardlyHome/BoardlyBoard.vue'
-import BoardlySidebar from '../components/BoardlyHome/BoardlySidebar.vue'
+import BoardlyHeader from '../components/BoardlyHome/BoardlyBoard/BoardlyHeader.vue'
+import BoardlyBoards from '../components/BoardlyHome/BoardlyBoards.vue'
+// import BoardlyBoard from '../components/BoardlyHome/BoardlyBoard.vue'
+//import BoardlySidebar from '../components/BoardlyHome/BoardlySidebar.vue'
 
 import Board from '../models/Board.js'
 import User from '../models/User.js'

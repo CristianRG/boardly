@@ -12,7 +12,7 @@ import BoardSection from './BoardSection.vue'
 import SectionAddNew from './SectionAddNew.vue';
 import { defineProps } from 'vue'
 
-import Board from '../../models/Board'
+import Board from '../../../models/Board'
 
 const props = defineProps({
     board: {

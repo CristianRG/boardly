@@ -1,55 +1,70 @@
 <template>
     <div class="form-group">
-        <label for="name">Nombre</label>
-        <input type="text" id="name" class="form-control" 
-        v-model="sectionTitle">
+        <label for="title">Titulo</label>
+        <input type="text" id="title" class="form-control" 
+        v-model="titleActivity">
+    </div>
+    <div class="form-group">
+        <label for="content">Contenido</label>
+        <textarea id="content" class="form-control" rows="5"
+            v-model="contentActivity"></textarea>
     </div>
     <div class="button-group">
         <button type="button" class="btn-cancelar" @click="close()">Cancelar</button>
-        <button type="button" class="btn-aceptar" @click="addSection()">Aceptar</button>
+        <button type="button" class="btn-aceptar" @click="edit()">Aceptar</button>
     </div>
 </template>
 <script setup>
-import { ref, defineEmits } from 'vue'
-import store from '../../store/store.js'
+import { defineProps, ref, defineEmits, computed } from 'vue'
 
-import BoardSection from '../../models/BoardSection.js'
-import { uuid } from 'vue-uuid';
-import Board from '../../models/Board.js';
+import Activity from '../../../models/Activity.js'
+import store from '../../../store/store.js';
+import Board from '../../../models/Board.js';
 
+const props = defineProps({
+    activity: {
+        type: Activity,
+        required: true
+    },
+    boardSectionId: String
+})
 
-const emit = defineEmits(['closeAdd'])
+const emit = defineEmits(['closeEdit'])
 
-const section = new BoardSection()
+let titleActivity = ref(props.activity.title)
 
-const sectionTitle = ref(section.title)
+let contentActivity = ref(props.activity.content)
 
 function close() {
-    emit('closeAdd')
+    emit('closeEdit')
 }
 
-function addSection() {
-    section.id = uuid.v4()
-    section.title = sectionTitle.value
-    section.activities = []
-    section.description = ''
-    section.owner = store.user
+function edit(){
+    const editedAct = new Activity()
+    editedAct.id = props.activity.id
+    editedAct.owner = props.activity.owner
+    editedAct.title = titleActivity.value
+    editedAct.content = contentActivity.value
+    editedAct.comments = props.activity.comments
+    
+    const indexSection = store.board.sections.findIndex(section => section.id == props.boardSectionId)
 
-    store.board.sections.push(section)
+    store.board.sections[indexSection] = store.activityFunctions.updateActivity(store.board.sections[indexSection], editedAct) 
 
     // save in localStorage...
     const boards = JSON.parse(localStorage.getItem('boards'))
     const board = Board.fromJSON(boards.find(board => board.id == store.board.id))
-    
-    board.sections.push(section)
+
+    board.sections[indexSection] = store.activityFunctions.updateActivity(board.sections[indexSection], editedAct)
 
     // replace element in boards who has the same id at the board
     const indexBoard = boards.findIndex(board => board.id == store.board.id)
     boards[indexBoard] = board
 
     localStorage.setItem('boards', JSON.stringify(boards))
-    
+
     close()
+    
 }
 
 </script>

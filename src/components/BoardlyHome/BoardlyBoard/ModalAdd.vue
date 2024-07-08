@@ -16,11 +16,11 @@
 </template>
 <script setup>
 import { defineProps, ref, defineEmits } from 'vue'
-import store from '../../store/store.js'
+import store from '../../../store/store.js'
 
-import Activity from '../../models/Activity.js'
+import Activity from '../../../models/Activity.js'
 import { uuid } from 'vue-uuid';
-import Board from '../../models/Board.js';
+import Board from '../../../models/Board.js';
 
 const props = defineProps({
     boardSectionId: String

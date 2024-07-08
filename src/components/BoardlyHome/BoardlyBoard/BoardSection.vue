@@ -15,7 +15,7 @@ import SectionTitle from './SectionTitle.vue';
 import SectionActivity from './SectionActivity.vue';
 import ActivityAddNew from './ActivityAddNew.vue';
 import { defineProps } from 'vue';
-import BoardSection from '../../models/BoardSection.js';
+import BoardSection from '../../../models/BoardSection.js';
 
 const props = defineProps({
     section: {

@@ -11,7 +11,7 @@
 <script setup>
 import { defineProps, ref } from 'vue';
 import ActivityModal from './ActivityModal.vue';
-import Activity from '../../models/Activity.js';
+import Activity from '../../../models/Activity.js';
 
 const props = defineProps({
     activity: {

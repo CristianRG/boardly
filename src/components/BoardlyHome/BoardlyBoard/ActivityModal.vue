@@ -18,12 +18,12 @@
 </template>
 <script setup>
 import { defineEmits, defineProps, ref, watch } from 'vue'
-import Activity from '../../models/Activity.js'
+import Activity from '../../../models/Activity.js'
 import Edit from '../icons/Edit.vue'
 import Delete from '../icons/Delete.vue'
 import ModalEdit from './ModalEdit.vue'
-import store from '../../store/store.js'
-import Board from '../../models/Board.js'
+import store from '../../../store/store.js'
+import Board from '../../../models/Board.js'
 
 const props = defineProps({
     title: String,

@@ -10,9 +10,9 @@
 </template>
 
 <script setup>
-import BoardlyBanner from '../icons/BoardlyBanner.vue';
-import BoardlyUser from '../icons/BoardlyUser.vue';
-import store from '../../store/store';
+import BoardlyBanner from '../../icons/BoardlyBanner.vue';
+import BoardlyUser from '../../icons/BoardlyUser.vue';
+import store from '../../../store/store';
 </script>
 
 <style scoped>

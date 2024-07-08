@@ -88,7 +88,7 @@
 
 <script setup>
 import { onMounted, defineProps } from 'vue'
-import store from '../../store/store';
+import store from '../../../store/store';
 
 import Home from '../icons/Home.vue';
 import BoardlyUsers from '../icons/BoardlyUsers.vue';
@@ -96,7 +96,7 @@ import Settings from '../icons/Settings.vue';
 import BoardIcon from '../icons/BoardIcon.vue';
 import LogOut from '../icons/LogOut.vue';
 
-import Board from '../../models/Board'
+import Board from '../../../models/Board'
 
 onMounted(() => {
     const body = document.querySelector('body')
