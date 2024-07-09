@@ -11,7 +11,7 @@
 </template>
 <script setup>
 import { ref } from 'vue'
-import AddNew from '../icons/AddNew.vue'
+import AddNew from '../../icons/AddNew.vue'
 import ModalAddSection from './ModalAddSection.vue';
 
 const openAddModal = ref(false)

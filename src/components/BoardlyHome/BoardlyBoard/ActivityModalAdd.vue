@@ -11,7 +11,7 @@
 </template>
 <script setup>
 import { defineEmits, defineProps, ref } from 'vue'
-import ModalAdd from '../BoardlyHome/ModalAdd.vue'
+import ModalAdd from './ModalAdd.vue'
 
 const props = defineProps({
     title: String,

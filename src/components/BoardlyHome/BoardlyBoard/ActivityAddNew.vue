@@ -14,7 +14,7 @@
 </template>
 <script setup>
 import { defineProps, ref } from 'vue'
-import AddNew from '../icons/AddNew.vue'
+import AddNew from '../../icons/AddNew.vue'
 import ActivityModalAdd from './ActivityModalAdd.vue'
 
 const props = defineProps({
