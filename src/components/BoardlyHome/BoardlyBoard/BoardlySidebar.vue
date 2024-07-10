@@ -97,6 +97,9 @@ import BoardIcon from '../../icons/BoardIcon.vue';
 import LogOut from '../../icons/LogOut.vue';
 
 import Board from '../../../models/Board'
+import { useLocalStorage } from '../../../composables/useLocalStorage';
+
+const {setItem} = useLocalStorage()
 
 onMounted(() => {
     const body = document.querySelector('body')
@@ -119,6 +122,8 @@ onMounted(() => {
         } else {
             modeText.innerText = 'Dark mode'
         }
+        setItem('theme', body.classList.contains('dark')? 'dark' : 'light')
+        store.theme = body.classList.contains('dark')? 'dark' : 'light'
     })
 })
 
