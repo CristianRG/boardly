@@ -5,8 +5,8 @@
   --primary-color-light: #f6f5ff;
   --toggle-color: #ddd;
   --text-color: #707070;
-  --text-color-danger: #a52e2e;
-  --text-color-success: #695cfe;
+  --color-danger: #a52e2e;
+  --color-success: #695cfe;
 
   --section-color: #fff;
   --modal-color: #fff;
@@ -245,4 +245,25 @@ body.dark {
 
 .sidebar li a:hover .icon svg {
   fill: var(--sidebar-color);
+}
+
+/* buttons */
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: var(--tran-03);
+}
+
+.btn-danger {
+  background-color: var(--color-danger);
+  color: #fff;
+}
+
+.btn-success {
+  background-color: var(--color-success);
+  color: #fff;
 }

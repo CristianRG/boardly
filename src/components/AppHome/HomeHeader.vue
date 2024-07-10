@@ -14,27 +14,31 @@
                 </div>
             </li>
             <li>
-                <a href="#" class="guess"
-                @click="continueAsGuess"
-                >Invitado</a>
+                <a href="#" class="guess" @click="showAlert=true">Invitado</a>
             </li>
             <li>
                 <router-link to="/login" class="login">Acceder</router-link>
             </li>
         </ul>
     </nav>
+    <Teleport to="body">
+        <AlertTemplate 
+        v-if="showAlert"
+        :alert="alert"/>
+    </Teleport>
 </template>
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import BoardlyBanner from '../icons/BoardlyBanner.vue'
+import AlertTemplate from '../Alerts/AlertTemplate.vue'
 import { useUser } from '../../composables/useUser'
 import { useLocalStorage } from '../../composables/useLocalStorage'
 import store from '../../store/store'
 import router from '../../routes/routes'
 
-const {setUser, saveUserState} = useUser()
+const { setUser, saveUserState } = useUser()
 
-const {setItem} = useLocalStorage()
+const { setItem } = useLocalStorage()
 
 // Dark mode toggle
 onMounted(() => {
@@ -43,17 +47,45 @@ onMounted(() => {
 
     modeSwitch.addEventListener('click', () => {
         body.classList.toggle('dark')
-        setItem('theme', body.classList.contains('dark')? 'dark' : 'light')
-        store.theme = body.classList.contains('dark')? 'dark' : 'light'
+        setItem('theme', body.classList.contains('dark') ? 'dark' : 'light')
+        store.theme = body.classList.contains('dark') ? 'dark' : 'light'
     })
 
-    
+
 })
 
-function continueAsGuess(){
+function continueAsGuess() {
     setUser(null, store.logged)
     saveUserState()
-    router.push({name: 'Boards'})
+    router.push({ name: 'Boards' })
+}
+
+const showAlert = ref(false)
+
+const alert = {
+    type: 'info',
+    //title: 'invitado',
+    message: `
+    Al continuar como invitado tus tablas, secciones y actividades serán guardadas en el almacenamiento local
+    de tu navegador. Ademas, no podrás compartir con tu equipo de trabajo tu espacio de trabajo.
+    `,
+    actions: [
+        {
+            label: 'Aceptar',
+            style: 'btn-success',
+            action: () => {
+                continueAsGuess()
+            }
+        },
+        {
+            label: 'Cancelar',
+            style: 'btn-danger',
+            action: () => {
+                showAlert.value = false
+            }
+        }
+
+    ]
 }
 
 </script>
