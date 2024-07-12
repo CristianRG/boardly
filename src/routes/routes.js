@@ -5,9 +5,10 @@ import AppHome from '../views/AppHome.vue'
 import Board from '../models/Board'
 
 const routes = [
-  { path: '/', name: 'Home',component: AppHome },
+  { path: '/', name: 'Home', component: AppHome },
+  { path: '/login', name: 'Login', component: () => import('../views/BoardlyLogin.vue') },
   { path: '/boardly', name: 'Boards', component: () => import('../views/BoardlyHome.vue') },
-  { path: '/boardly/:id', name: 'Board', props: true, component: () => import('../views/BoardlyBoard.vue')}
+  { path: '/boardly/:id', name: 'Board', props: true, component: () => import('../views/BoardlyBoard.vue') }
 ]
 
 const router = createRouter({
