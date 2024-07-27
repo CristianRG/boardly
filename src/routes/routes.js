@@ -3,6 +3,7 @@ import store from '../store/store'
 
 import AppHome from '../views/AppHome.vue'
 import Board from '../models/Board'
+import { nextTick } from 'vue'
 
 const routes = [
   { path: '/', name: 'Home', component: AppHome },
@@ -16,18 +17,11 @@ const router = createRouter({
   routes,
 })
 
-// router.beforeEach((to, from, next)=> {
-//   if(to.path === '/boardly/:id'){
-//     const JSONboards = JSON.parse(localStorage.getItem('boards'))
-//     const board = Board.fromJSON(JSONboards.find(board => board.id === to.params.id))
-//     if(board){
-//       // pass like prop the board to the next
-//       //to.params = board
-//       //next()
-//       return
-//     }
-//   }
-//   next()
-// })
+router.afterEach((to, from, failure) => {
+  nextTick(() => {
+    document.title = to.name || 'Not title'
+  })
+})
+
 
 export default router

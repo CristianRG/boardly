@@ -2,6 +2,7 @@
     <div class="card">
         <div class="login" v-if="showLogForm">
             <!-- Your login form goes here -->
+            <h1 style="margin-bottom: 2rem;">Inicia sesión</h1>
             <form @submit.prevent="login">
                 <label for="username">Usuario</label>
                 <input type="text" id="username" v-model="username" />
@@ -10,11 +11,12 @@
                 <button class="btn btn-danger" @click="router.push({ name: 'Home' })">Cancelar</button>
                 <button class="btn btn-success" type="submit">Login</button>
             </form>
-            <span>¿Aún no te has registrado? <a href="#" @click="showLogForm = false">Click aquí</a> para
+            <span>¿Aún no tines una cuenta? <a href="#" @click="showLogForm = false">Click aquí</a> para
                 registrarte</span>
         </div>
         <div class="signup" v-if="!showLogForm">
             <!-- Your signup form goes here -->
+            <h5 style="margin-bottom: 2rem;">Regístrate</h5>
             <form @submit.prevent="signup">
                 <label for="signupUsername">Nombre de Usuario</label>
                 <input type="text" id="signupUsername" v-model="signupUsername" />
@@ -70,6 +72,10 @@ const errorMessage = ref('')
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+.login h1, .signup h5{
+    font-size: 30px;
 }
 
 form {
