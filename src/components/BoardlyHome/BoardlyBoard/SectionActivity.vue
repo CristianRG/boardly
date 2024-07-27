@@ -1,17 +1,20 @@
 <template>
-    <div id="activity" @click="modalActive = true">
+    <div 
+    draggable="true" v-on:dragstart="drag($event, {item:activity, sectionId:boardSectionId})"
+    :id="activity.id" class="activity" @click="modalActive = true">
         <h4>{{ activity.title }}</h4>
+        <Teleport to="body">
+            <ActivityModal v-if="modalActive" title="Detalles" :editable="true" :activity="activity"
+                :boardSectionId="boardSectionId" @close="modalActive = false" />
+        </Teleport>
     </div>
-    <Teleport to="body">
-        <ActivityModal v-if="modalActive" title="Detalles" :editable="true" :activity="activity"
-            :boardSectionId="boardSectionId" @close="modalActive = false" />
-    </Teleport>
 </template>
 
 <script setup>
 import { defineProps, ref } from 'vue';
 import ActivityModal from './ActivityModal.vue';
 import Activity from '../../../models/Activity.js';
+import { useDragDrop } from '../../../composables/useDragDrop.js';
 
 const props = defineProps({
     activity: {
@@ -21,11 +24,13 @@ const props = defineProps({
     boardSectionId: String
 })
 
+const {drag} = useDragDrop()
+
 let modalActive = ref(false)
 
 </script>
 <style scoped>
-#activity {
+.activity {
     width: 100%;
     height: 3rem;
     display: flex;
@@ -43,5 +48,4 @@ h4 {
     margin: 0%;
     padding: 0 10px 0 10px;
 }
-
 </style>
