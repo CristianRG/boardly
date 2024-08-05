@@ -35,7 +35,7 @@ import store from '../../../store/store';
     }
 
     .options {
-        width: 4rem;
+        width: 3.5rem;
         height: 3.7rem;
         margin-right: 5px;
     }

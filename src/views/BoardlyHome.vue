@@ -1,6 +1,6 @@
 <template>
     <div id="mainpage">
-        <BoardlyHeader style="left: 0px; width: 100%;"/>
+        <HomeHeader />
         <main>
             <BoardlyBoards />
         </main>
@@ -9,9 +9,8 @@
 
 <script setup>
 
-import BoardlyHeader from '../components/BoardlyHome/BoardlyBoard/BoardlyHeader.vue'
 import BoardlyBoards from '../components/BoardlyHome/BoardlyBoards.vue'
-
+import HomeHeader from '../components/AppHome/HomeHeader.vue';
 
 
 </script>
@@ -35,6 +34,10 @@ main {
     margin-top: 4rem;
     padding-top: 10px;
     /* background: #35333C; */
+}
+
+::-webkit-scrollbar {
+    display: none;
 }
 
 </style>

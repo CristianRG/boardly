@@ -13,10 +13,15 @@
                     <span class="switch"></span>
                 </div>
             </li>
-            <li>
+            <li v-if="!store.user">
                 <a href="#" class="guess" @click="showAlert=true">Invitado</a>
             </li>
-            <li>
+            <li v-if="store.user"
+            style="width: 3.5rem;"
+            >
+                <BoardlyUser :user="store.user"/>
+            </li>
+            <li v-if="!store.logged">
                 <router-link to="/login" class="login">Acceder</router-link>
             </li>
         </ul>
@@ -35,6 +40,7 @@ import { useUser } from '../../composables/useUser'
 import { useLocalStorage } from '../../composables/useLocalStorage'
 import store from '../../store/store'
 import router from '../../routes/routes'
+import BoardlyUser from '../icons/BoardlyUser.vue'
 
 const { setUser, saveUserState } = useUser()
 

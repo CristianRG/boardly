@@ -1,8 +1,12 @@
 <template>
-    <div id="`{{ board.id }}`" class="card"
-    @click="router.push({name: 'Board', params: { id: board.id}})"
-    >
-        <span class="name">{{ board.name }}</span>
+    <div :id="board.id" class="card" @click="router.push({ name: 'Board', params: { id: board.id } })">
+        <span class="name">
+            {{ board.name }}
+            <div class="options">
+                <Edit />
+                <Delete />
+            </div>
+        </span>
         <span class="description">{{ board.description }}</span>
         <span class="owner">{{ board.owner.name }}</span>
     </div>
@@ -11,6 +15,8 @@
 import { defineProps } from 'vue'
 import router from '../../routes/routes'
 import Board from '../../models/Board'
+import Edit from '../icons/Edit.vue'
+import Delete from '../icons/Delete.vue'
 
 const props = defineProps({
     board: {
@@ -21,33 +27,44 @@ const props = defineProps({
 
 </script>
 <style scoped>
-
-.card{
-    width: 12rem;
+.card {
+    width: 14rem;
     height: 12rem;
     display: grid;
     grid-template-rows: 1.5rem 1fr 1rem;
-    padding: 5px;
-    background: var(--body-color);
+    padding: 10px;
+    background: var(--section-color);
     border-radius: 5px;
-    border: 1px solid var(--text-color);
 }
 
-.name, .description, .owner {
+.options {
+    display: flex;
+    align-items: center;
+}
+
+.name,
+.description,
+.owner {
     color: var(--text-color);
-    font-weight: 500;
 }
 
-.name{
+.name {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: fit-content;
+    font-weight: bold;
     font-size: 1.5rem;
     margin-bottom: 0.5rem;
 }
-.description{
+
+.description {
     margin-top: .8rem;
-    font-size: 1rem;
+    font-size: 15px;
 }
-.owner{
-    font-size: 0.8rem;
+
+.owner {
+    font-size: 12px;
     text-align: end;
 }
 </style>

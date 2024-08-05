@@ -3,8 +3,10 @@
     <nav class="sidebar close" ref="sidebar">
         <header>
             <div class="image-text">
-                <span class="image">
-                    <img src="" alt="" />
+                <span class="image" style="color: var(--text-color); font-weight: bold; font-size: 30px;"
+                @click="router.push({name:'Home'})"
+                >
+                    B
                 </span>
 
                 <div class="text logo-text">
@@ -89,6 +91,7 @@
 <script setup>
 import { onMounted, defineProps } from 'vue'
 import store from '../../../store/store';
+import router from '../../../routes/routes';
 
 import Home from '../../icons/Home.vue';
 import BoardlyUsers from '../../icons/BoardlyUsers.vue';

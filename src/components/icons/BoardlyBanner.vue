@@ -1,10 +1,14 @@
 <template>
-    <div id="logo">
+    <div id="logo"
+    @click="router.push({name: 'Home'})"
+    >
         <h1>Boardly</h1>
     </div>
 </template>
 
-<script setup></script>
+<script setup>
+import router from '../../routes/routes';
+</script>
 <style scoped>
 #logo {
     height: 100%;
