@@ -1,9 +1,13 @@
 <template>
     <div id="mainpage">
-        <BoardlySidebar :board="store.board"/>
+        <BoardlySidebar 
+        v-if="store.board"
+        :board="store.board"/>
         <BoardlyHeader />
         <main>
-            <BoardlyBoard :board="store.board" />
+            <BoardlyBoard 
+            v-if="store.board"
+            :board="store.board" />
         </main>
     </div>
 </template>
@@ -17,7 +21,6 @@ import BoardlyBoard from '../components/BoardlyHome/BoardlyBoard/BoardlyBoard.vu
 import BoardlySidebar from '../components/BoardlyHome/BoardlyBoard/BoardlySidebar.vue'
 import Board from '../models/Board.js'
 import router from '../routes/routes.js'
-import User from '../models/User.js'
 
 const props = defineProps({
     id: {
@@ -26,15 +29,16 @@ const props = defineProps({
     }
 })
 
-//store.user = User.fromJSON(JSON.parse(localStorage.getItem('user')))
-
 const JSONboards = JSON.parse(localStorage.getItem('boards'))
+
 const board = JSONboards.find(board => board.id === props.id)
 
 if (!board) {
-    throw new Error('Board not found')
+    router.push({name: '404'})
 }
-store.board = Board.fromJSON(board)
+else{
+    store.board = Board.fromJSON(board)
+}
 
 </script>
 
@@ -57,6 +61,10 @@ main {
     margin-top: 4rem;
     padding-top: 10px;
     /* background: #35333C; */
+}
+
+::-webkit-scrollbar {
+    display: none;
 }
 
 </style>

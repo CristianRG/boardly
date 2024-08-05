@@ -1,5 +1,4 @@
 <template>
-    <title>Login</title>
     <div class="container-login">
         <LoginCard />
     </div>
