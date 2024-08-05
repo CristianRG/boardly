@@ -3,8 +3,8 @@ import { ref } from "vue"
 export const useDragDrop = () => {
     let data = ref(null)
 
-    const drag = (ev, {item, sectionId}) => {
-        ev.dataTransfer.setData('application/json', JSON.stringify({item, sectionId}))
+    const drag = (ev, item) => {
+        ev.dataTransfer.setData('application/json', JSON.stringify(item))
     }
 
     const drop = (ev) => {

@@ -1,7 +1,7 @@
 <template>
-    <div :id="section.id" class="section scale-in-center">
+    <div @drop="drop($event)" @dragover.prevent @dragenter.prevent :key="section.id" class="section scale-in-center">
         <SectionTitle :section="section" />
-        <div @drop="drop($event)" @dragover.prevent @dragenter.prevent class="section-activities">
+        <div class="section-activities">
             <SectionActivity v-for="activity in section.activities" :key="activity.id" :activity="activity"
                 :boardSectionId="section.id" />
         </div>
@@ -13,7 +13,7 @@
 import SectionTitle from './SectionTitle.vue';
 import SectionActivity from './SectionActivity.vue';
 import ActivityAddNew from './ActivityAddNew.vue';
-import { defineProps, ref, watch } from 'vue';
+import { defineProps, watch } from 'vue';
 import BoardSection from '../../../models/BoardSection.js';
 import { useDragDrop } from '../../../composables/useDragDrop.js';
 import { useLocalStorage } from '../../../composables/useLocalStorage.js'
@@ -30,15 +30,17 @@ const props = defineProps({
 
 const { data, drop } = useDragDrop()
 
-const {getItem, setItem, removeItem} = useLocalStorage()
+const { updateActivityByDragDrop } = useLocalStorage()
 
-watch(data, (newData, oldData) => {
+watch(data, (newData) => {
+
+    const activity = Activity.fromJSON(newData.item)
+
     const newIndexSection = store.board.sections.findIndex(se => se.id === props.section.id)
     const oldIndexSection = store.board.sections.findIndex(se => se.id === newData.sectionId)
-    store.activityFunctions.addActivity(store.board.sections[newIndexSection], Activity.fromJSON(newData.item))
-    store.activityFunctions.removeActivity(store.board.sections[oldIndexSection], Activity.fromJSON(newData.item))
-    
-    
+    store.activityFunctions.addActivity(store.board.sections[newIndexSection], activity)
+    store.activityFunctions.removeActivity(store.board.sections[oldIndexSection], activity)
+    updateActivityByDragDrop()
 })
 
 </script>

@@ -101,7 +101,8 @@ const activityFunctions = {
      * @param {Activity} activity
      */
     removeActivity(boardSection, activity){
-        boardSection.activities.splice(boardSection.activities.indexOf(activity), 1)
+        const index = boardSection.activities.findIndex(act => act.id === activity.id)
+        boardSection.activities.splice(index, 1)
         return boardSection
     },
     /**
