@@ -267,3 +267,40 @@ body.dark {
   background-color: var(--color-success);
   color: #fff;
 }
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+textarea {
+  border: none;
+  border-bottom: 1px solid var(--text-color);
+  outline: none;
+  width: 100%;
+  padding: 5px 0;
+  font-size: 16px;
+  background: none;
+  transition: border-color 0.3s ease;
+  color: var(--text-color);
+}
+
+textarea {
+  resize: none;
+}
+
+input[type="text"]:focus,
+textarea:focus {
+  border-bottom: 1px solid #623EE6;
+}
+
+.buttons-group {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 15px;
+}

@@ -21,6 +21,14 @@ export const useLocalStorage = () => {
         localStorage.removeItem(key)
     }
 
+    // board functions
+
+    const addBoard = (board) => {
+        const boards = JSON.parse(localStorage.getItem('boards'))
+        boards.push(board)
+        localStorage.setItem('boards', JSON.stringify(boards))
+    }
+
     const addActivity = () => {
         // save in localStorage...
         const boards = JSON.parse(localStorage.getItem('boards'))
@@ -43,6 +51,7 @@ export const useLocalStorage = () => {
         setItem,
         removeItem,
         addActivity,
-        updateActivityByDragDrop
+        updateActivityByDragDrop,
+        addBoard,
     }
 }

@@ -1,50 +1,33 @@
 <template>
-    <div class="modal">
+    <div class="modal"
+    v-if="show"
+    >
         <div class="modal-content">
             <!-- <span class="close" @click="close()">&times;</span> -->
             <div class="content" id="content">
-                <span
-                style="margin-bottom: 1rem;"
-                >simon</span>
-                
-            </div>
-            <div class="options">
-                
+                <component 
+                :is="content"
+                @close="$emit('close')"
+                ></component>
             </div>
         </div>
     </div>
 </template>
 <script setup>
-import { defineProps, onMounted } from 'vue'
+import { defineProps, onMounted, ref } from 'vue'
 
 const props = defineProps({
-    modal: {
-        type: Object
+    content: {
+        type: Object,
+        required: true
+    },
+    show: {
+        type: Boolean,
+        default: false
     }
 })
 
-const { modal } = props
-
-const typesOfContent = {
-    'input': () => { return document.createElement('input') },
-}
-
-onMounted(() => {
-    const content = document.getElementById('content')
-    modal.content.forEach(element => {
-        if(element.target in typesOfContent){
-            const newElement = typesOfContent[element.target]()
-            
-            element.options.forEach(option => {
-                newElement[option.key] = option.value
-            })
-            console.log(newElement)
-            content.appendChild(newElement)
-        }
-    });
-})
-
-
+const emits = defineEmits(['close'])
 
 </script>
 <style scoped>
