@@ -17,8 +17,8 @@ import ModalNewBoard from './ModalNewBoard.vue';
 import AddButton from '../Common/AddButton.vue';
 import { ref } from 'vue';
 
-const JSONboards = JSON.parse(localStorage.getItem('boards'))
-const boards = JSONboards.map((board) => { return Board.fromJSON(board) })
+const JSONboards = localStorage.getItem('boards') ? JSON.parse(localStorage.getItem('boards')) : []
+const boards = JSONboards.length != 0 ? JSONboards.map((board) => { return Board.fromJSON(board) }) : []
 store.boards = boards
 
 const show = ref(false)

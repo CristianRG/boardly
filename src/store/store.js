@@ -145,7 +145,7 @@ const commentFunctions = {
 /**
  * 
  * @param {User} user 
- * @returns {BoardSection}
+ * @returns {[BoardSection]}
  */
 function defaultBoardSections(user){
     return [

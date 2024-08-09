@@ -36,8 +36,6 @@ const props = defineProps({
     .button-add {
         width: 3rem;
         position: fixed;
-        bottom: 10px;
-        right: 10px;
     }
 
     span {

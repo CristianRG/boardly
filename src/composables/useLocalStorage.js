@@ -28,6 +28,7 @@ export const useLocalStorage = () => {
         boards.push(board)
         localStorage.setItem('boards', JSON.stringify(boards))
     }
+    
 
     const addActivity = () => {
         // save in localStorage...

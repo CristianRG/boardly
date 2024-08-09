@@ -223,10 +223,13 @@ const props = defineProps({
 }
 
 header .image-text .name {
+    width: calc(100% - 28px);
     margin-top: 2px;
     font-size: 18px;
     font-weight: 600;
-    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 header .image-text .user {

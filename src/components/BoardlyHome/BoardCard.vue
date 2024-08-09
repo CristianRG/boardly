@@ -1,16 +1,24 @@
 <template>
-    <div :id="board.id" class="card" @click="router.push({ name: 'Board', params: { id: board.id } })">
+    <div :id="board.id" class="card">
         <div class="card-header">
-            <span class="name">
+            <span class="name"
+            @click="router.push({ name: 'Board', params: { id: board.id } })"
+            >
                 {{ board.name }}
             </span>
             <div class="options">
                 <Edit />
-                <Delete />
+                <Delete 
+                @click="handleDeleteBoard(board)"
+                />
             </div>
         </div>
-        <span class="description">{{ board.description }}</span>
-        <span class="owner">{{ board.owner.name }}</span>
+        <span class="description"
+        @click="router.push({ name: 'Board', params: { id: board.id } })"
+        >{{ board.description }}</span>
+        <span class="owner"
+        @click="router.push({ name: 'Board', params: { id: board.id } })"
+        >{{ board.owner.name }}</span>
     </div>
 </template>
 <script setup>
@@ -19,6 +27,7 @@ import router from '../../routes/routes'
 import Board from '../../models/Board'
 import Edit from '../icons/Edit.vue'
 import Delete from '../icons/Delete.vue'
+import store from '../../store/store'
 
 const props = defineProps({
     board: {
@@ -27,7 +36,11 @@ const props = defineProps({
     }
 })
 
-
+const handleDeleteBoard = (board) => {
+    // Add your delete board logic here
+    store.boardFunctions.removeBoard(board, store.boards)
+    localStorage.setItem('boards', JSON.stringify(store.boards))
+}
 
 </script>
 <style scoped>
@@ -59,6 +72,8 @@ const props = defineProps({
 .description,
 .owner {
     color: var(--text-color);
+    user-select: none;
+    cursor: pointer;
 }
 
 .name {
@@ -72,9 +87,8 @@ const props = defineProps({
 
 .description {
     margin-top: .8rem;
-    font-size: 20px;
+    font-size: 15px;
     width: 100%;
-    white-space: wrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -85,5 +99,32 @@ const props = defineProps({
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+@media (max-width: 610px) {
+    .card {
+        width: 10rem;
+        height: 10rem;
+
+        & .card-header {
+            width: calc(10rem - 20px);
+
+            & .name {
+                font-size: 1.1rem;
+            }
+        }
+
+        & .description {
+            font-size: 15px;
+        }
+
+        & .owner {
+            font-size: 10px;
+        }
+    }
+
+    .name {
+        font-size: 1.2rem;
+    }
 }
 </style>
