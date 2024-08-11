@@ -2,7 +2,7 @@
     <div class="card">
         <div class="login" v-if="showLogForm">
             <!-- Your login form goes here -->
-            <h1 style="margin-bottom: 2rem;">Inicia sesión</h1>
+            <h1 style="margin-bottom: 2rem; color: #623EE6;">Inicia sesión</h1>
             <form @submit.prevent="login">
                 <label for="username">Usuario</label>
                 <input type="text" id="username" v-model="username" />
@@ -16,7 +16,7 @@
         </div>
         <div class="signup" v-if="!showLogForm">
             <!-- Your signup form goes here -->
-            <h5 style="margin-bottom: 2rem;">Regístrate</h5>
+            <h5 style="margin-bottom: 2rem; color: #623EE6">Regístrate</h5>
             <form @submit.prevent="signup">
                 <label for="signupUsername">Nombre de Usuario</label>
                 <input type="text" id="signupUsername" v-model="signupUsername" />
