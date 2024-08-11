@@ -3,6 +3,9 @@
     draggable="true" v-on:dragstart="drag($event, {item:activity, sectionId:boardSectionId})"
     :id="activity.id" class="activity" @click="modalActive = true">
         <span>{{ activity.title }}</span>
+        <div class="actions">
+            <Ellipsis />
+        </div>
         <Teleport to="body">
             <ActivityModal v-if="modalActive" title="Detalles" :editable="true" :activity="activity"
                 :boardSectionId="boardSectionId" @close="modalActive = false" />
@@ -15,7 +18,7 @@ import { defineProps, ref } from 'vue';
 import ActivityModal from './ActivityModal.vue';
 import Activity from '../../../models/Activity.js';
 import { useDragDrop } from '../../../composables/useDragDrop.js';
-
+import Ellipsis from '../../icons/Ellipsis.vue';
 const props = defineProps({
     activity: {
         type: Activity,
