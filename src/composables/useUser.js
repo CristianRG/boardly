@@ -13,6 +13,7 @@ export const useUser = () => {
      * @param {Boolean} logged
      */
     function setUser(user, logged){
+        console.log(logged)
         if(!logged && !localStorage.getItem('user')){
             user = new User(
                 uuid.v4(),
@@ -36,11 +37,11 @@ export const useUser = () => {
     }
 
     function saveUserState(){
-        if(isLogged){
+        if(isLogged.value){
             store.user = userReference.value
             return userReference.value
         }
-        localStorage.setItem('user', JSON.stringify(userReference))
+        localStorage.setItem('user', JSON.stringify(userReference.value))
         store.user = userReference.value
         return userReference.value
     }

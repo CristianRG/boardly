@@ -18,6 +18,21 @@ const router = createRouter({
   routes,
 })
 
+router.beforeEach((to, from, next) => {
+  if (to.name === 'Login' && store.logged) {
+    next(from.path)
+  }
+  else if (to.name === 'Boards' && !store.user) {
+    next('/login')
+  }
+  else if (to.name === 'Board' && !store.user) {
+    next('/login')
+  }
+  else {
+    next()
+  }
+})
+
 router.afterEach((to, from, failure) => {
   nextTick(() => {
     document.title = to.name || 'Not title'
