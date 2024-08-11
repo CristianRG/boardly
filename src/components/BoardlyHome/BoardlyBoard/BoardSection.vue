@@ -58,6 +58,7 @@ watch(data, (newData) => {
 }
 
 .section-activities {
+    width: calc(18rem - 20px);
     height: fit-content;
     display: flex;
     flex-direction: column;
@@ -68,6 +69,10 @@ watch(data, (newData) => {
 @media (max-width: 390px) {
     .section {
         width: 15rem;
+    }
+
+    .section-activities {
+        width: calc(15rem - 20px);
     }
 }
 </style>

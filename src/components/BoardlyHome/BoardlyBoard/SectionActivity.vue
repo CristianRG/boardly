@@ -2,7 +2,7 @@
     <div 
     draggable="true" v-on:dragstart="drag($event, {item:activity, sectionId:boardSectionId})"
     :id="activity.id" class="activity" @click="modalActive = true">
-        <h4>{{ activity.title }}</h4>
+        <span>{{ activity.title }}</span>
         <Teleport to="body">
             <ActivityModal v-if="modalActive" title="Detalles" :editable="true" :activity="activity"
                 :boardSectionId="boardSectionId" @close="modalActive = false" />
@@ -42,9 +42,13 @@ let modalActive = ref(false)
 
 }
 
-h4 {
+span {
+    width: 100%;
     color: var(--text-color);
     font-size: 18px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     margin: 0%;
     padding: 0 10px 0 10px;
 }
