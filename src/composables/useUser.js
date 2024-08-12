@@ -13,7 +13,6 @@ export const useUser = () => {
      * @param {Boolean} logged
      */
     function setUser(user, logged){
-        console.log(logged)
         if(!logged && !localStorage.getItem('user')){
             user = new User(
                 uuid.v4(),

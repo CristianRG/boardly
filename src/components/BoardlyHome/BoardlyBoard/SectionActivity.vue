@@ -1,10 +1,10 @@
 <template>
-    <div 
-    draggable="true" v-on:dragstart="drag($event, {item:activity, sectionId:boardSectionId})"
-    :id="activity.id" class="activity" @click="modalActive = true">
+    <div draggable="true" v-on:dragstart="drag($event, { item: activity, sectionId: boardSectionId })" :id="activity.id"
+        class="activity" @click="modalActive = true">
         <span>{{ activity.title }}</span>
         <div class="actions">
-            <Ellipsis />
+            <Ellipsis @click.stop = "trackMouse($event)" />
+            <ActionsTemplate :show="actionsActive" :menuItems :coordinates @close="actionsActive = false"/>
         </div>
         <Teleport to="body">
             <ActivityModal v-if="modalActive" title="Detalles" :editable="true" :activity="activity"
@@ -14,11 +14,13 @@
 </template>
 
 <script setup>
-import { defineProps, ref } from 'vue';
+import { defineProps, reactive, ref } from 'vue';
 import ActivityModal from './ActivityModal.vue';
 import Activity from '../../../models/Activity.js';
 import { useDragDrop } from '../../../composables/useDragDrop.js';
 import Ellipsis from '../../icons/Ellipsis.vue';
+import ActionsTemplate from '../../Modals/ActionsTemplate.vue';
+import store from '../../../store/store.js';
 const props = defineProps({
     activity: {
         type: Activity,
@@ -27,9 +29,39 @@ const props = defineProps({
     boardSectionId: String
 })
 
-const {drag} = useDragDrop()
+const { drag } = useDragDrop()
 
 let modalActive = ref(false)
+let actionsActive = ref(false)
+
+const menuItems = reactive([
+    {
+        label: 'Editar',
+        actions: [],
+        quickAction: () => console.log("Yes!"),
+        isOpen: false,
+    },
+    {
+        label: 'Eliminar',
+        actions: [],
+        quickAction: () => console.log("No!"),
+        isOpen: false,
+    },
+    {
+        label: 'Mover a',
+        actions: [],
+        isOpen: false,
+    },
+]);
+
+let coordinates = reactive({ x: 0, y: 0 })
+
+const trackMouse = (event) => {
+    actionsActive.value = true
+    coordinates = { x: event.clientX, y: event.clientY }
+}
+
+console.log(store.board.sections)
 
 </script>
 <style scoped>
