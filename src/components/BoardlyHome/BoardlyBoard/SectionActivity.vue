@@ -3,9 +3,11 @@
         class="activity" @click="modalActive = true">
         <span>{{ activity.title }}</span>
         <div class="actions">
-            <Ellipsis @click.stop = "trackMouse($event)" />
-            <ActionsTemplate :show="actionsActive" :menuItems :coordinates @close="actionsActive = false"/>
+            <Ellipsis @click.stop="trackMouse($event, activity)" />
         </div>
+        <Teleport :to="teleport">
+            <ActionsTemplate :show="actionsActive" :menuItems :coordinates @close="actionsActive = false" />
+        </Teleport>
         <Teleport to="body">
             <ActivityModal v-if="modalActive" title="Detalles" :editable="true" :activity="activity"
                 :boardSectionId="boardSectionId" @close="modalActive = false" />
@@ -14,7 +16,7 @@
 </template>
 
 <script setup>
-import { defineProps, reactive, ref } from 'vue';
+import { defineProps, onMounted, reactive, ref } from 'vue';
 import ActivityModal from './ActivityModal.vue';
 import Activity from '../../../models/Activity.js';
 import { useDragDrop } from '../../../composables/useDragDrop.js';
@@ -33,6 +35,8 @@ const { drag } = useDragDrop()
 
 let modalActive = ref(false)
 let actionsActive = ref(false)
+let activitySelected = reactive(new Activity())
+const activitySection = store.board.sections.find((section) => section.id === props.boardSectionId)
 
 const menuItems = reactive([
     {
@@ -49,19 +53,30 @@ const menuItems = reactive([
     },
     {
         label: 'Mover a',
-        actions: [],
+        actions: store.board.sections.map((section) => { return { title: section.title,  
+            action: () => {
+                store.activityFunctions.removeActivity(activitySection, activitySelected)
+                store.activityFunctions.addActivity(section, activitySelected)
+
+                
+                // Update boardSectionId and re-render activities
+            }
+        } }),
         isOpen: false,
     },
 ]);
 
 let coordinates = reactive({ x: 0, y: 0 })
 
-const trackMouse = (event) => {
+const trackMouse = (event, activity) => {
     actionsActive.value = true
     coordinates = { x: event.clientX, y: event.clientY }
+    activitySelected = activity
 }
 
-console.log(store.board.sections)
+let teleport = ref('body')
+
+onMounted(() => teleport.value = '#board')
 
 </script>
 <style scoped>
@@ -74,7 +89,6 @@ console.log(store.board.sections)
     border: 1px solid var(--text-color);
     background: var(--section-color);
     overflow: hidden;
-
 }
 
 span {

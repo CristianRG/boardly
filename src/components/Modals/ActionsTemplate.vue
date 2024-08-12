@@ -1,6 +1,6 @@
 <template>
     <div class="vertical-menu" v-if="show"
-    :style="{top: `${coordinates.y}`, left: `${coordinates.x}`}"
+    :style="{top: `${coordinates.y}px`, left: `${coordinates.x}px`}"
     >
         <ul>
             <li v-for="item in menuItems" :key="item.label" @mouseover="onHover(item)" @mouseleave="onLeave"
@@ -8,7 +8,7 @@
                 {{ item.label }}
                 <ul v-if="item.isOpen && item.actions.length > 0" class="dropdown">
                     <li v-for="action in item.actions" :key="action" @click.stop="actionSelected(action)">
-                        {{ action }}
+                        {{ action.title }}
                     </li>
                 </ul>
             </li>
@@ -74,7 +74,7 @@ const isDesktop = () => {
 const actionSelected = (action) => {
     closeAllDropdowns()
     emits('close')
-    console.log(`Acción seleccionada: ${action}`);
+    action.action()
 };
 
 </script>
@@ -86,7 +86,7 @@ const actionSelected = (action) => {
     color: var(--text-color);
     border: 1px solid var(--text-color);
     border-radius: 5px;
-    z-index: 100;
+    z-index: 1000;
 }
 
 .vertical-menu ul {
