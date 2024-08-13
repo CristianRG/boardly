@@ -6,7 +6,7 @@
             <Ellipsis @click.stop="trackMouse($event, activity)" />
         </div>
         <Teleport :to="teleport">
-            <ActionsTemplate :show="actionsActive" :menuItems :coordinates @close="actionsActive = false" />
+            <ActionsTemplate :show="actionsActive" :menuItems :coordinates @close="actionsActive = false"/>
         </Teleport>
         <Teleport to="body">
             <ActivityModal v-if="modalActive" title="Detalles" :editable="true" :activity="activity"
@@ -16,13 +16,14 @@
 </template>
 
 <script setup>
-import { defineProps, onMounted, reactive, ref } from 'vue';
+import { defineProps, markRaw, onMounted, reactive, ref } from 'vue';
 import ActivityModal from './ActivityModal.vue';
 import Activity from '../../../models/Activity.js';
 import { useDragDrop } from '../../../composables/useDragDrop.js';
 import Ellipsis from '../../icons/Ellipsis.vue';
 import ActionsTemplate from '../../Modals/ActionsTemplate.vue';
 import store from '../../../store/store.js';
+import Edit from '../../icons/Edit.vue';
 const props = defineProps({
     activity: {
         type: Activity,
@@ -39,6 +40,12 @@ let activitySelected = reactive(new Activity())
 const activitySection = store.board.sections.find((section) => section.id === props.boardSectionId)
 
 const menuItems = reactive([
+    {
+        label: 'Ver',
+        actions: [],
+        quickAction: () => console.log("See details!"),
+        isOpen: false,
+    },
     {
         label: 'Editar',
         actions: [],
