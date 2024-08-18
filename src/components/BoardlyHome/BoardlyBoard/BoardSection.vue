@@ -3,9 +3,9 @@
         <SectionTitle :section="section" />
         <div class="section-activities">
             <SectionActivity v-for="activity in section.activities" :key="activity.id" :activity="activity"
-                :boardSectionId="section.id" />
+                :sectionId="section.id" />
         </div>
-        <ActivityAddNew :boardSectionId="section.id" />
+        <ActivityAddNew :sectionId="section.id" />
     </div>
 </template>
 

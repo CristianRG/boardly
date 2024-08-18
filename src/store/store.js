@@ -55,7 +55,8 @@ const boardFunctions = {
      * @param {[Board]} boards
      */
     updateBoard(board, boards){
-        boards.splice(boards.indexOf(board), 1, board)
+        const index = boards.findIndex(b => b.id === board.id)
+        boards.splice(index, 1, board)
         return boards
     }
 }

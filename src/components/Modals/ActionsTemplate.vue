@@ -161,6 +161,7 @@ watch(() => props.show, (newVal) => {
     top: 0;
     display: block;
     background-color: var(--section-color);
+    color: var(--text-color);
     border: 1px solid #ddd;
     padding: 0;
 }

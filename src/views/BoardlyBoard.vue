@@ -30,7 +30,7 @@ const props = defineProps({
 })
 
 const JSONboards = JSON.parse(localStorage.getItem('boards'))
-
+store.boards = JSONboards.map(b => { return Board.fromJSON(b) })
 const board = JSONboards.find(board => board.id === props.id)
 
 if (!board) {

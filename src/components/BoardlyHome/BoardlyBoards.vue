@@ -20,7 +20,6 @@ import { ref } from 'vue';
 const JSONboards = localStorage.getItem('boards') ? JSON.parse(localStorage.getItem('boards')) : []
 const boards = JSONboards.length != 0 ? JSONboards.map((board) => { return Board.fromJSON(board) }) : []
 store.boards = boards
-
 const show = ref(false)
 
 </script>

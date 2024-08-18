@@ -1,49 +1,52 @@
 <template>
-    <div draggable="true" v-on:dragstart="drag($event, { item: activity, sectionId: boardSectionId })" :id="activity.id"
+    <div draggable="true" v-on:dragstart="drag($event, { item: activity, sectionId })" :id="activity.id"
         class="activity" @click="modalActive = true">
         <span>{{ activity.title }}</span>
         <div class="actions">
             <Ellipsis @click.stop="trackMouse($event, activity)" />
         </div>
         <Teleport :to="teleport">
-            <ActionsTemplate :show="actionsActive" :menuItems :coordinates @close="actionsActive = false"/>
+            <ActionsTemplate :show="actionsActive" :menuItems :coordinates @close="actionsActive = false" />
         </Teleport>
         <Teleport to="body">
-            <ActivityModal v-if="modalActive" title="Detalles" :editable="true" :activity="activity"
-                :boardSectionId="boardSectionId" @close="modalActive = false" />
+            <ModalTemplate :content="ModalDetailsActivity" :show="modalActive"
+                :extra="{ activity, sectionId, editable: false }" @close="modalActive = false" />
         </Teleport>
     </div>
 </template>
 
 <script setup>
-import { defineProps, markRaw, onMounted, reactive, ref } from 'vue';
-import ActivityModal from './ActivityModal.vue';
+import { defineProps, onMounted, reactive, ref } from 'vue';
 import Activity from '../../../models/Activity.js';
 import { useDragDrop } from '../../../composables/useDragDrop.js';
 import Ellipsis from '../../icons/Ellipsis.vue';
 import ActionsTemplate from '../../Modals/ActionsTemplate.vue';
 import store from '../../../store/store.js';
-import Edit from '../../icons/Edit.vue';
+import ModalTemplate from '../../Modals/ModalTemplate.vue';
+import ModalDetailsActivity from './ModalDetailsActivity.vue';
+
 const props = defineProps({
     activity: {
         type: Activity,
         required: true
     },
-    boardSectionId: String
+    sectionId: String
 })
+
+//const show = ref(modalActive.value)
 
 const { drag } = useDragDrop()
 
 let modalActive = ref(false)
 let actionsActive = ref(false)
 let activitySelected = reactive(new Activity())
-const activitySection = store.board.sections.find((section) => section.id === props.boardSectionId)
+const activitySection = store.board.sections.find((section) => section.id === props.sectionId)
 
 const menuItems = reactive([
     {
         label: 'Ver',
         actions: [],
-        quickAction: () => console.log("See details!"),
+        quickAction: () => { modalActive.value = true },
         isOpen: false,
     },
     {
@@ -60,15 +63,17 @@ const menuItems = reactive([
     },
     {
         label: 'Mover a',
-        actions: store.board.sections.map((section) => { return { title: section.title,  
-            action: () => {
-                store.activityFunctions.removeActivity(activitySection, activitySelected)
-                store.activityFunctions.addActivity(section, activitySelected)
-
-                
-                // Update boardSectionId and re-render activities
+        actions: store.board.sections.map((section) => {
+            return {
+                title: section.title,
+                action: () => {
+                    store.activityFunctions.removeActivity(activitySection, activitySelected)
+                    store.activityFunctions.addActivity(section, activitySelected)
+                    store.boardFunctions.updateBoard(store.board, store.boards)
+                    localStorage.setItem('boards', JSON.stringify(store.boards))
+                }
             }
-        } }),
+        }),
         isOpen: false,
     },
 ]);

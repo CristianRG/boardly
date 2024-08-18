@@ -3,10 +3,11 @@
     v-if="show"
     >
         <div class="modal-content">
-            <!-- <span class="close" @click="close()">&times;</span> -->
+            <span class="close" @click="$emit('close')">&times;</span>
             <div class="content" id="content">
                 <component 
                 :is="content"
+                v-bind="extra"
                 @close="$emit('close')"
                 ></component>
             </div>
@@ -14,12 +15,16 @@
     </div>
 </template>
 <script setup>
-import { defineProps, onMounted, ref } from 'vue'
+import { defineProps } from 'vue'
 
 const props = defineProps({
     content: {
         type: Object,
         required: true
+    },
+    extra: {
+        type: Object,
+        required: false
     },
     show: {
         type: Boolean,

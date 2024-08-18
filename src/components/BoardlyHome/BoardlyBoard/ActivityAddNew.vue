@@ -4,25 +4,25 @@
         <AddNew />
     </div>
     <Teleport to="body">
-        <ActivityModalAdd 
+        <!-- <ActivityModalAdd 
         v-if="openAddModal"
         title="Nueva actividad"
-        :boardSectionId="boardSectionId"
+        :sectionId
         @close="openAddModal = false"
-        />
+        /> -->
+        <ModalTemplate :content="ModalNewActivity" :show="openAddModal" :extra="{edit: false, sectionId}" @close="openAddModal = false" />
     </Teleport>
 </template>
 <script setup>
 import { defineProps, ref } from 'vue'
 import AddNew from '../../icons/AddNew.vue'
 import ActivityModalAdd from './ActivityModalAdd.vue'
+import ModalTemplate from '../../Modals/ModalTemplate.vue';
+import ModalNewActivity from './ModalNewActivity.vue';
 
 const props = defineProps({
-    boardSectionId: String
+    sectionId: String
 })
-
-const boardSectionId = props.boardSectionId
-
 let openAddModal = ref(false)
 
 </script>
