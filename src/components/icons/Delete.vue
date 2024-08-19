@@ -15,6 +15,10 @@ div {
     align-items: center;
 }
 
+div:hover{
+    scale: 1.05;
+}
+
 svg {
     width: 20px;
     height: fit-content;

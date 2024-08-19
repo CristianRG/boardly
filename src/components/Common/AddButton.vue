@@ -22,6 +22,7 @@ const props = defineProps({
     align-items: center;
     background: var(--primary-color);
     border-radius: 5px;
+    user-select: none;
 }
 
 @media (max-width: 1200px) {
