@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue'
+import { defineProps, onMounted } from 'vue'
 import store from '../store/store.js'
 
 import BoardlyHeader from '../components/BoardlyHome/BoardlyBoard/Board/BoardlyHeader.vue'
@@ -40,6 +40,39 @@ else{
     store.board = Board.fromJSON(board)
 }
 
+let isDown = false;
+let startX;
+let scrollLeft;
+
+onMounted(() => {
+    const scrollContainer = document.querySelector('main');
+    scrollContainer.addEventListener('mousedown', (e) => {
+        isDown = true;
+        scrollContainer.classList.add('active')
+        startX = e.pageX - scrollContainer.offsetLeft;
+        scrollLeft = scrollContainer.scrollLeft;
+    });
+
+    scrollContainer.addEventListener('mouseleave', () => {
+        scrollContainer.classList.remove('active');
+        isDown = false;
+    });
+
+    scrollContainer.addEventListener('mouseup', () => {
+        scrollContainer.classList.remove('active');
+        isDown = false;
+    });
+
+    scrollContainer.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - scrollContainer.offsetLeft;
+        const walk = (x - startX) * 2; // Ajusta la velocidad de desplazamiento multiplicando por un número mayor o menor
+        scrollContainer.scrollLeft = scrollLeft - walk;
+    });
+})
+
+
 </script>
 
 <style scoped>
@@ -61,6 +94,10 @@ main {
     margin-top: 4rem;
     padding-top: 10px;
     /* background: #35333C; */
+}
+
+main:active{
+    cursor: grabbing;
 }
 
 ::-webkit-scrollbar {

@@ -36,5 +36,6 @@ let openAddModal = ref(false)
         font-weight: bold;
         margin: 0%;
         margin-left: 5px;
+        user-select: none;
     }
 </style>

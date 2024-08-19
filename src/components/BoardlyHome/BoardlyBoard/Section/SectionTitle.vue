@@ -111,6 +111,7 @@ h4 {
     font-size: 20px;
     font-weight: bold;
     margin: 0;
+    user-select: none;
 }
 
 h4:focus {
