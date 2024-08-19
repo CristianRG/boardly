@@ -1,21 +1,20 @@
 <template>
-    <div class="modal"
-    v-if="show"
-    >
-        <div class="modal-content">
-            <span class="close" @click="$emit('close')">&times;</span>
+    <div class="modal" v-if="show" @click="attention">
+        <div class="modal-content" :class="style" @click.stop>
+            <span class="close" @click="close">&times;</span>
             <div class="content" id="content">
                 <component 
                 :is="content"
                 v-bind="extra"
-                @close="$emit('close')"
+                @close="close"
                 ></component>
             </div>
         </div>
     </div>
 </template>
+
 <script setup>
-import { defineProps } from 'vue'
+import { defineProps, onMounted, ref, watch } from 'vue'
 
 const props = defineProps({
     content: {
@@ -33,8 +32,37 @@ const props = defineProps({
 })
 
 const emits = defineEmits(['close'])
+let style = ref('')
+
+onMounted(() => {
+    if (props.show) {
+        style.value = 'slide-in-top'
+    }
+})
+
+const close = () => {
+    style.value = 'slide-out-top'
+    setTimeout(() => {
+        emits('close')
+    }, 500)
+}
+
+const attention = () => {
+    style.value = 'heartbeat'
+    setTimeout(() => {
+        style.value = ''
+    }, 1000)
+}
+
+// Watch the `show` prop to reset the animation style
+watch(() => props.show, (newVal) => {
+    if (newVal) {
+        style.value = 'slide-in-top'
+    }
+})
 
 </script>
+
 <style scoped>
 .modal {
     position: fixed;
@@ -43,7 +71,7 @@ const emits = defineEmits(['close'])
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 .modal-content {

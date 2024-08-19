@@ -17,13 +17,13 @@
 
 <script setup>
 import { defineProps, onMounted, reactive, ref } from 'vue';
-import Activity from '../../../models/Activity.js';
-import { useDragDrop } from '../../../composables/useDragDrop.js';
-import Ellipsis from '../../icons/Ellipsis.vue';
-import ActionsTemplate from '../../Modals/ActionsTemplate.vue';
-import store from '../../../store/store.js';
-import ModalTemplate from '../../Modals/ModalTemplate.vue';
-import ModalDetailsActivity from './ModalDetailsActivity.vue';
+import Activity from '../../../../models/Activity.js';
+import { useDragDrop } from '../../../../composables/useDragDrop.js'; 
+import Ellipsis from '../../../icons/Ellipsis.vue';
+import ActionsTemplate from '../../../Modals/ActionsTemplate.vue';
+import store from '../../../../store/store.js';
+import ModalTemplate from '../../../Modals/ModalTemplate.vue';
+import ModalDetailsActivity from '../Activity/ModalDetailsActivity.vue';
 
 const props = defineProps({
     activity: {

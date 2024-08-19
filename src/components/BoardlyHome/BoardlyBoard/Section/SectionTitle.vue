@@ -12,11 +12,11 @@
 <script setup>
 import { ref, nextTick, toRef } from 'vue'
 
-import Edit from '../../icons/Edit.vue'
-import Delete from '../../icons/Delete.vue'
-import BoardSection from '../../../models/BoardSection'
-import store from '../../../store/store'
-import Board from '../../../models/Board'
+import Edit from '../../../icons/Edit.vue'
+import Delete from '../../../icons/Delete.vue'
+import BoardSection from '../../../../models/BoardSection'
+import store from '../../../../store/store'
+import Board from '../../../../models/Board'
 
 const props = defineProps({
     section: {

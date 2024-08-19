@@ -1,32 +1,31 @@
 <template>
-    <div class="form-group">
-        <label for="name">Nombre</label>
-        <input type="text" id="name" class="form-control" 
-        v-model="sectionTitle">
-    </div>
-    <div class="button-group">
-        <button type="button" class="btn-cancelar" @click="close()">Cancelar</button>
-        <button type="button" class="btn-aceptar" @click="addSection()">Aceptar</button>
+    <div class="content">
+        <span style="font-size: 30px; color: var(--text-color);">Nuevo</span>
+        <div class="form-group" style="margin-top: 15px;">
+            <label for="name">Nombre</label>
+            <input type="text" id="name" class="form-control" v-model="sectionTitle">
+        </div>
+        <div class="buttons-group">
+            <button type="button" class="btn btn-danger" @click="$emit('close')">Cancelar</button>
+            <button type="button" class="btn btn-success" @click="addSection()">Aceptar</button>
+        </div>
     </div>
 </template>
 <script setup>
 import { ref, defineEmits } from 'vue'
-import store from '../../../store/store.js'
+import store from '../../../../store/store.js';
 
-import BoardSection from '../../../models/BoardSection.js'
+import BoardSection from '../../../../models/BoardSection.js';
 import { uuid } from 'vue-uuid';
-import Board from '../../../models/Board.js';
+import Board from '../../../../models/Board.js';
 
 
-const emit = defineEmits(['closeAdd'])
+const emit = defineEmits(['close'])
 
 const section = new BoardSection()
 
 const sectionTitle = ref(section.title)
 
-function close() {
-    emit('closeAdd')
-}
 
 function addSection() {
     section.id = uuid.v4()
@@ -40,7 +39,7 @@ function addSection() {
     // save in localStorage...
     const boards = JSON.parse(localStorage.getItem('boards'))
     const board = Board.fromJSON(boards.find(board => board.id == store.board.id))
-    
+
     board.sections.push(section)
 
     // replace element in boards who has the same id at the board
@@ -48,12 +47,17 @@ function addSection() {
     boards[indexBoard] = board
 
     localStorage.setItem('boards', JSON.stringify(boards))
-    
-    close()
+
+    emit('close')
 }
 
 </script>
 <style scoped>
+
+.content {
+    display: block;
+}
+
 .form-group {
     margin-bottom: 15px;
 }
@@ -85,25 +89,4 @@ textarea:focus {
     border-bottom: 1px solid #623EE6;
 }
 
-.btn-cancelar,
-.btn-aceptar {
-    border: none;
-    outline: none;
-    cursor: pointer;
-    padding: 10px 20px;
-    border-radius: 5px;
-}
-
-.btn-cancelar {
-    background: var(--text-color-danger);
-    color: white;
-    margin-right: 10px;
-    border: 1px solid var(--text-color);
-}
-
-.btn-aceptar {
-    background: var(--text-color-success);
-    color: white;
-    border: 1px solid var(--text-color);
-}
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div class="vertical-menu" v-if="show" ref="menu" :style="menuStyle">
+    <div class="vertical-menu" v-if="show" ref="menuRef" :style="menuStyle">
         <ul>
             <li v-for="item in menuItems" :key="item.label" @mouseover="onHover(item)" @mouseleave="onLeave"
                 @click.stop="toggleDropdown(item)">

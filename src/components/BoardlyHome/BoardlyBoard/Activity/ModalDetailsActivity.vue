@@ -13,9 +13,9 @@
     </div>
 </template>
 <script setup>
-import Activity from '../../../models/Activity';
-import Edit from '../../icons/Edit.vue';
-import Delete from '../../icons/Delete.vue';
+import Activity from '../../../../models/Activity';
+import Edit from '../../../icons/Edit.vue';
+import Delete from '../../../icons/Delete.vue';
 import ModalNewActivity from './ModalNewActivity.vue';
 import { ref } from 'vue';
 const props = defineProps({

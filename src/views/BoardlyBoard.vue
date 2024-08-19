@@ -16,9 +16,9 @@
 import { defineProps } from 'vue'
 import store from '../store/store.js'
 
-import BoardlyHeader from '../components/BoardlyHome/BoardlyBoard/BoardlyHeader.vue'
-import BoardlyBoard from '../components/BoardlyHome/BoardlyBoard/BoardlyBoard.vue'
-import BoardlySidebar from '../components/BoardlyHome/BoardlyBoard/BoardlySidebar.vue'
+import BoardlyHeader from '../components/BoardlyHome/BoardlyBoard/Board/BoardlyHeader.vue'
+import BoardlyBoard from '../components/BoardlyHome/BoardlyBoard/Board/BoardlyBoard.vue'
+import BoardlySidebar from '../components/BoardlyHome/BoardlyBoard/Board/BoardlySidebar.vue'
 import Board from '../models/Board.js'
 import router from '../routes/routes.js'
 

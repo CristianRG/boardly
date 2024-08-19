@@ -90,17 +90,17 @@
 
 <script setup>
 import { onMounted, defineProps } from 'vue'
-import store from '../../../store/store';
-import router from '../../../routes/routes';
+import store from '../../../../store/store';
+import router from '../../../../routes/routes';
 
-import Home from '../../icons/Home.vue';
-import BoardlyUsers from '../../icons/BoardlyUsers.vue';
-import Settings from '../../icons/Settings.vue';
-import BoardIcon from '../../icons/BoardIcon.vue';
-import LogOut from '../../icons/LogOut.vue';
+import Home from '../../../icons/Home.vue'
+import BoardlyUsers from '../../../icons/BoardlyUsers.vue';
+import Settings from '../../../icons/Settings.vue';
+import BoardIcon from '../../../icons/BoardIcon.vue';
+import LogOut from '../../../icons/LogOut.vue';
 
-import Board from '../../../models/Board'
-import { useLocalStorage } from '../../../composables/useLocalStorage';
+import Board from '../../../../models/Board';
+import { useLocalStorage } from '../../../../composables/useLocalStorage';
 
 const {setItem} = useLocalStorage()
 

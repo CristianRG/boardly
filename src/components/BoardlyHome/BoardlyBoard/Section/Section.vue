@@ -12,13 +12,13 @@
 <script setup>
 import SectionTitle from './SectionTitle.vue';
 import SectionActivity from './SectionActivity.vue';
-import ActivityAddNew from './ActivityAddNew.vue';
+import ActivityAddNew from '../Activity/ActivityAddNew.vue';
 import { defineProps, watch } from 'vue';
-import BoardSection from '../../../models/BoardSection.js';
-import { useDragDrop } from '../../../composables/useDragDrop.js';
-import { useLocalStorage } from '../../../composables/useLocalStorage.js'
-import store from '../../../store/store.js';
-import Activity from '../../../models/Activity.js';
+import BoardSection from '../../../../models/BoardSection.js';
+import { useDragDrop } from '../../../../composables/useDragDrop.js';
+import { useLocalStorage } from '../../../../composables/useLocalStorage.js'; 
+import store from '../../../../store/store.js';
+import Activity from '../../../../models/Activity.js';
 
 const props = defineProps({
     section: {

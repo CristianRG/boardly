@@ -20,9 +20,9 @@
 </template>
 <script setup>
 import { ref } from 'vue';
-import Activity from '../../../models/Activity';
+import Activity from '../../../../models/Activity';
 import { uuid } from 'vue-uuid';
-import store from '../../../store/store';
+import store from '../../../../store/store';
 
 const props = defineProps({
     activity: {
