@@ -59,7 +59,6 @@ const handleEditActivity = () => {
     else {
         store.activityFunctions.updateActivity(store.board.sections[indexSection], activityRef.value)
         store.boardFunctions.updateBoard(store.board, store.boards)
-        console.log(store.boards)
         emits('close')
     }
 }

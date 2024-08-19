@@ -1,55 +1,30 @@
 <template>
     <div class="modal">
         <div class="modal-content">
-            <!-- <span class="close" @click="close()">&times;</span> -->
+            <span class="close" @click="$emit('close')">&times;</span>
             <div class="alert-content">
                 <span>{{ title }}</span>
                 <p>{{ message }}</p>
             </div>
-            <div class="options">
-                <button class="btn"
-                v-for="action in actions"
-                :class="action.style"
-                @click="action.action"
-                >{{ action.label }}</button>
-                
+            <div class="options" v-if="actions.length > 0">
+                <button class="btn" v-for="action in actions" :class="action.style" @click="action.action">{{
+                    action.label }}</button>
             </div>
         </div>
     </div>
 </template>
 <script setup>
 import { defineProps, ref } from 'vue'
+import Alert from '../../models/Alert'
 
 const props = defineProps({
     alert: {
-        type: Object,
+        type: Alert,
         required: true
     }
 })
 
-// example for type of props to receive to build a custom alert
-// const alert = {
-//     type: 'info',
-//     //title: 'simon',
-//     message: 'Example to info alert',
-//     actions: [
-//         {
-//             label: 'Aceptar',
-//             style: 'btn-success',
-//             action: () => {
-//                 console.log('Confirm action')
-//             }
-//         },
-//         {
-//             label: 'Cancelar',
-//             style: 'btn-danger',
-//             action: () => {
-//                 console.log('Cancel action')
-//             }
-//         }
-        
-//     ]
-// }
+const emits = defineEmits(['close'])
 
 const types = {
     info: 'Información',

@@ -14,12 +14,10 @@
                 </div>
             </li>
             <li v-if="!store.user">
-                <a href="#" class="guess" @click="showAlert=true">Invitado</a>
+                <a href="#" class="guess" @click="showAlert = true">Invitado</a>
             </li>
-            <li v-if="store.user"
-            style="width: 3.5rem;"
-            >
-                <BoardlyUser :user="store.user"/>
+            <li v-if="store.user" style="width: 3.5rem;">
+                <BoardlyUser :user="store.user" />
             </li>
             <li v-if="!store.logged">
                 <router-link to="/login" class="login">Acceder</router-link>
@@ -27,9 +25,7 @@
         </ul>
     </nav>
     <Teleport to="body">
-        <AlertTemplate 
-        v-if="showAlert"
-        :alert="alert"/>
+        <AlertTemplate v-if="showAlert" :alert @close="showAlert = false"/>
     </Teleport>
 </template>
 <script setup>
@@ -41,6 +37,7 @@ import { useLocalStorage } from '../../composables/useLocalStorage'
 import store from '../../store/store'
 import router from '../../routes/routes'
 import BoardlyUser from '../icons/BoardlyUser.vue'
+import Alert from '../../models/Alert'
 
 const { setUser, saveUserState } = useUser()
 
@@ -68,31 +65,14 @@ function continueAsGuess() {
 
 const showAlert = ref(false)
 
-const alert = {
-    type: 'info',
-    //title: 'invitado',
-    message: `
-    Al continuar como invitado tus tablas, secciones y actividades serán guardadas en el almacenamiento local
-    de tu navegador. Ademas, no podrás compartir con tu equipo de trabajo tu espacio de trabajo.
-    `,
-    actions: [
-        {
-            label: 'Aceptar',
-            style: 'btn-success',
-            action: () => {
-                continueAsGuess()
-            }
-        },
-        {
-            label: 'Cancelar',
-            style: 'btn-danger',
-            action: () => {
-                showAlert.value = false
-            }
-        }
-
-    ]
-}
+const alert = new Alert()
+alert.type = alert.types.info
+alert.title = 'Invitado'
+alert.message = `Al continuar como invitado los tableros que creas, secciones y actividades serán guardadas en el almacenamiento local de tu navegador.`
+alert.actions = [
+    Alert.action('Cancelar', alert.styles.btnDanger, () => showAlert.value = false),
+    Alert.action('Aceptar', alert.styles.btnSuccess, () => {continueAsGuess(), showAlert.value = false})
+]
 
 </script>
 <style scoped>

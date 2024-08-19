@@ -10,7 +10,10 @@
         </Teleport>
         <Teleport to="body">
             <ModalTemplate :content="ModalDetailsActivity" :show="modalActive"
-                :extra="{ activity, sectionId, editable: false }" @close="modalActive = false" />
+                :extra="{ activity, sectionId, editable }" @close="modalActive = false" />
+        </Teleport>
+        <Teleport to="body">
+            <AlertTemplate v-if="alertActive" :alert />
         </Teleport>
     </div>
 </template>
@@ -18,12 +21,14 @@
 <script setup>
 import { defineProps, onMounted, reactive, ref } from 'vue';
 import Activity from '../../../../models/Activity.js';
-import { useDragDrop } from '../../../../composables/useDragDrop.js'; 
+import { useDragDrop } from '../../../../composables/useDragDrop.js';
 import Ellipsis from '../../../icons/Ellipsis.vue';
 import ActionsTemplate from '../../../Modals/ActionsTemplate.vue';
 import store from '../../../../store/store.js';
 import ModalTemplate from '../../../Modals/ModalTemplate.vue';
 import ModalDetailsActivity from '../Activity/ModalDetailsActivity.vue';
+import AlertTemplate from '../../../Alerts/AlertTemplate.vue';
+import Alert from '../../../../models/Alert.js';
 
 const props = defineProps({
     activity: {
@@ -39,7 +44,10 @@ const { drag } = useDragDrop()
 
 let modalActive = ref(false)
 let actionsActive = ref(false)
+let alertActive = ref(false)
+let editable = ref(false)
 let activitySelected = reactive(new Activity())
+let alert = new Alert()
 const activitySection = store.board.sections.find((section) => section.id === props.sectionId)
 
 const menuItems = reactive([
@@ -52,13 +60,24 @@ const menuItems = reactive([
     {
         label: 'Editar',
         actions: [],
-        quickAction: () => console.log("Yes!"),
+        quickAction: () => { modalActive.value = true, editable.value = true },
         isOpen: false,
     },
     {
         label: 'Eliminar',
         actions: [],
-        quickAction: () => console.log("No!"),
+        quickAction: () => {
+            alert.type = alert.types.warning
+            alert.message = '¿Deseas eliminar esta nota?'
+            alert.actions.push(Alert.action('Cancelar', alert.styles.btnDanger, () => alertActive.value = false))
+            alert.actions.push(Alert.action('Confirmar', alert.styles.btnSuccess, () => {
+                store.activityFunctions.removeActivity(activitySection, activitySelected)
+                store.boardFunctions.updateBoard(store.board, store.boards)
+                localStorage.setItem('boards', JSON.stringify(store.boards))
+                alertActive.value = false
+            }))
+            alertActive.value = true
+        },
         isOpen: false,
     },
     {
