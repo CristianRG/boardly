@@ -15,7 +15,7 @@ import Section from '../Section/Section.vue';
 import AddButton from '../../../Common/AddButton.vue';
 import ModalTemplate from '../../../Modals/ModalTemplate.vue';
 import ModalNewSection from '../Section/ModalNewSection.vue';
-import { defineProps, ref } from 'vue'
+import { defineProps, onMounted, ref } from 'vue'
 
 import Board from '../../../../models/Board';
 
@@ -25,7 +25,19 @@ const props = defineProps({
         required: true
     }
 })
+import { socket } from '../../../../socket';
+import store from '../../../../store/store';
 
+onMounted(() => {
+    socket.connect()
+
+    socket.emit('shareBoard', JSON.stringify(store.board))
+
+    socket.on('receiveBoard', (board) => {
+        const boardRecived = JSON.parse(board)
+        console.log('received board', boardRecived)
+    })
+})
 let show = ref(false)
 
 </script>
