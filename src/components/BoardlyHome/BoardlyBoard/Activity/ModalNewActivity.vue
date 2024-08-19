@@ -48,6 +48,8 @@ const handleAddActivity = () => {
         activityRef.value.comments = []
 
         store.activityFunctions.addActivity(store.board.sections[indexSection], activityRef.value)
+        store.boardFunctions.updateBoard(store.board, store.boards)
+        localStorage.setItem('boards', JSON.stringify(store.boards))
         emits('close')
     }
 }
@@ -59,6 +61,7 @@ const handleEditActivity = () => {
     else {
         store.activityFunctions.updateActivity(store.board.sections[indexSection], activityRef.value)
         store.boardFunctions.updateBoard(store.board, store.boards)
+        localStorage.setItem('boards', JSON.stringify(store.boards))
         emits('close')
     }
 }
