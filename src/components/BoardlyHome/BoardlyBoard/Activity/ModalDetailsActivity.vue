@@ -7,6 +7,7 @@
             <div class="options">
                 <Edit @click="edit = true" />
                 <Delete @click="actions.DELETE(section, activity)" />
+                <Forward />
             </div>
         </div>
         <ModalNewActivity v-if="edit" :activity="activity" :section :edit @close="edit = false" />
@@ -19,6 +20,7 @@
 import Activity from '../../../../models/Activity';
 import Edit from '../../../icons/Edit.vue';
 import Delete from '../../../icons/Delete.vue';
+import Forward from '../../../icons/Forward.vue';
 import ModalNewActivity from './ModalNewActivity.vue';
 import { ref } from 'vue';
 import useActivityFunctions from '../../../../composables/helpers/useActivityFunctions';
