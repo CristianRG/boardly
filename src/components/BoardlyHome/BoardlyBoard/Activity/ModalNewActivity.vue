@@ -23,6 +23,7 @@ import { ref } from 'vue';
 import Activity from '../../../../models/Activity';
 import { uuid } from 'vue-uuid';
 import store from '../../../../store/store';
+import BoardSection from '../../../../models/BoardSection';
 
 const props = defineProps({
     activity: {
@@ -30,24 +31,27 @@ const props = defineProps({
         default: () => new Activity()
     },
     edit: Boolean,
-    sectionId: String
+    section: {
+        type: BoardSection,
+        required: true
+    }
 })
 
 const emits = defineEmits(['close'])
 let error = ref('')
-let activityRef = ref(props.activity)
-const indexSection = store.board.sections.findIndex((section) => section.id == props.sectionId)
+let activityRef = props.activity
+//const indexSection = store.board.sections.findIndex((section) => section.id == props.sectionId)
 
 const handleAddActivity = () => {
-    if (!activityRef.value.title) {
+    if (!activityRef.title) {
         error.value = 'El nombre de la tarea es obligatorio'
     }
     else{
-        activityRef.value.id = uuid.v4()
-        activityRef.value.owner = store.user
-        activityRef.value.comments = []
+        activityRef.id = uuid.v4()
+        activityRef.owner = store.user
+        activityRef.comments = []
 
-        store.activityFunctions.addActivity(store.board.sections[indexSection], activityRef.value)
+        store.activityFunctions.addActivity(props.section, activityRef)
         store.boardFunctions.updateBoard(store.board, store.boards)
         localStorage.setItem('boards', JSON.stringify(store.boards))
         emits('close')
@@ -55,11 +59,11 @@ const handleAddActivity = () => {
 }
 
 const handleEditActivity = () => {
-    if (!activityRef.value.title) {
+    if (!activityRef.title) {
         error.value = 'El nombre de la tarea es obligatorio'
     }
     else {
-        store.activityFunctions.updateActivity(store.board.sections[indexSection], activityRef.value)
+        store.activityFunctions.updateActivity(props.section, activityRef)
         store.boardFunctions.updateBoard(store.board, store.boards)
         localStorage.setItem('boards', JSON.stringify(store.boards))
         emits('close')

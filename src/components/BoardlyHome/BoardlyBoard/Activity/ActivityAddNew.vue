@@ -4,7 +4,7 @@
         <AddNew />
     </div>
     <Teleport to="body">
-        <ModalTemplate :content="ModalNewActivity" :show="openAddModal" :extra="{edit: false, sectionId}" @close="openAddModal = false" />
+        <ModalTemplate :content="ModalNewActivity" :show="openAddModal" :extra="{edit: false, section}" @close="openAddModal = false" />
     </Teleport>
 </template>
 <script setup>
@@ -12,9 +12,13 @@ import { defineProps, ref } from 'vue'
 import AddNew from '../../../icons/AddNew.vue'
 import ModalTemplate from '../../../Modals/ModalTemplate.vue';
 import ModalNewActivity from './ModalNewActivity.vue';
+import BoardSection from '../../../../models/BoardSection';
 
 const props = defineProps({
-    sectionId: String
+    section: {
+        type: BoardSection,
+        required: true
+    }
 })
 let openAddModal = ref(false)
 

@@ -10,7 +10,7 @@
         </Teleport>
         <Teleport to="body">
             <ModalTemplate :content="ModalDetailsActivity" :show="modalActive"
-                :extra="{ activity, sectionId, editable }" @close="modalActive = false" />
+                :extra="{ activity, section, editable }" @close="modalActive = false" />
         </Teleport>
         <Teleport to="body">
             <AlertTemplate v-if="alertActive" :alert />
@@ -29,13 +29,17 @@ import ModalTemplate from '../../../Modals/ModalTemplate.vue';
 import ModalDetailsActivity from '../Activity/ModalDetailsActivity.vue';
 import AlertTemplate from '../../../Alerts/AlertTemplate.vue';
 import Alert from '../../../../models/Alert.js';
+import BoardSection from '../../../../models/BoardSection.js';
 
 const props = defineProps({
     activity: {
         type: Activity,
         required: true
     },
-    sectionId: String
+    section: {
+        type: BoardSection,
+        required: true
+    }
 })
 
 //const show = ref(modalActive.value)
@@ -48,7 +52,6 @@ let alertActive = ref(false)
 let editable = ref(false)
 let activitySelected = reactive(new Activity())
 let alert = new Alert()
-const activitySection = store.board.sections.find((section) => section.id === props.sectionId)
 
 const menuItems = reactive([
     {
@@ -71,7 +74,7 @@ const menuItems = reactive([
             alert.message = '¿Deseas eliminar esta nota?'
             alert.actions.push(Alert.action('Cancelar', alert.styles.btnDanger, () => alertActive.value = false))
             alert.actions.push(Alert.action('Confirmar', alert.styles.btnSuccess, () => {
-                store.activityFunctions.removeActivity(activitySection, activitySelected)
+                store.activityFunctions.removeActivity(props.section, activitySelected)
                 store.boardFunctions.updateBoard(store.board, store.boards)
                 localStorage.setItem('boards', JSON.stringify(store.boards))
                 alertActive.value = false
@@ -86,7 +89,7 @@ const menuItems = reactive([
             return {
                 title: section.title,
                 action: () => {
-                    store.activityFunctions.removeActivity(activitySection, activitySelected)
+                    store.activityFunctions.removeActivity(props.section, activitySelected)
                     store.activityFunctions.addActivity(section, activitySelected)
                     store.boardFunctions.updateBoard(store.board, store.boards)
                     localStorage.setItem('boards', JSON.stringify(store.boards))

@@ -5,11 +5,14 @@
             <p style="font-size: 18px; color:var(--text-color);">{{ activity.content }}</p>
 
             <div class="options">
-                <Edit @click="edit = true"/>
-                <Delete />
+                <Edit @click="edit = true" />
+                <Delete @click="actions.DELETE(section, activity)" />
             </div>
         </div>
-        <ModalNewActivity v-if="edit" :activity="activity" :sectionId :edit @close="edit = false" />
+        <ModalNewActivity v-if="edit" :activity="activity" :section :edit @close="edit = false" />
+        <Teleport to="body">
+            <AlertTemplate v-if="showAlert" @close="showAlert = false" :alert/>
+        </Teleport>
     </div>
 </template>
 <script setup>
@@ -18,16 +21,35 @@ import Edit from '../../../icons/Edit.vue';
 import Delete from '../../../icons/Delete.vue';
 import ModalNewActivity from './ModalNewActivity.vue';
 import { ref } from 'vue';
+import useActivityFunctions from '../../../../composables/helpers/useActivityFunctions';
+import BoardSection from '../../../../models/BoardSection';
+const { handleRemoveActivity } = useActivityFunctions()
+import AlertTemplate from '../../../Alerts/AlertTemplate.vue';
+import Alert from '../../../../models/Alert';
+
 const props = defineProps({
     activity: {
         type: Activity,
         required: true
     },
     editable: Boolean,
-    sectionId: String
+    section: {
+        type: BoardSection,
+        required: true
+    }
 })
 
+let alert = new Alert()
 const edit = ref(props.editable)
+const showAlert = ref(false)
+
+const actions = {
+    DELETE: (section, activity) => {
+        showAlert.value = true
+        alert = new Alert(alert.types.warning, '', '¿Estas seguro de querer eliminar esta nota?', 
+        [Alert.action('Cancelar', alert.styles.btnDanger, () => showAlert.value = false), Alert.action('Eliminar', alert.styles.btnSuccess, () => handleRemoveActivity(section, activity))])
+    },
+}
 
 </script>
 <style scoped>

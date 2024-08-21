@@ -2,7 +2,7 @@
     <div id="board">
         <Section 
         v-for="section in board.sections" :key="section.id"
-        :section="section"
+        :section
         />
         <ModalTemplate :content="ModalNewSection" :show @close="show = false"/>
         <AddButton message="Nueva sección"
@@ -25,19 +25,19 @@ const props = defineProps({
         required: true
     }
 })
-import { socket } from '../../../../socket';
+//import { socket } from '../../../../socket';
 import store from '../../../../store/store';
 
-onMounted(() => {
-    socket.connect()
+// onMounted(() => {
+//     socket.connect()
 
-    socket.emit('shareBoard', JSON.stringify(store.board))
+//     socket.emit('shareBoard', JSON.stringify(store.board))
 
-    socket.on('receiveBoard', (board) => {
-        const boardRecived = JSON.parse(board)
-        console.log('received board', boardRecived)
-    })
-})
+//     socket.on('receiveBoard', (board) => {
+//         const boardRecived = JSON.parse(board)
+//         console.log('received board', boardRecived)
+//     })
+// })
 let show = ref(false)
 
 </script>
