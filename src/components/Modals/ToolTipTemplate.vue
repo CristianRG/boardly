@@ -1,11 +1,11 @@
 <template>
-    <div class="tooltip" v-if="show" :class="classAnimation">
+    <div class="tooltip" v-if="showTooltip" :class="classAnimation">
         {{ message }}
     </div>
 </template>
 
 <script setup>
-import { defineProps, onMounted, ref, watch } from 'vue';
+import { defineProps, onMounted, ref, watch, defineEmits } from 'vue';
 const props = defineProps({
     message: {
         type: String,
@@ -18,16 +18,26 @@ const props = defineProps({
 })
 
 const classAnimation = ref('')
+const showTooltip = ref(false)
+const emits = defineEmits('close')
 
 onMounted(() => {
-    if(props.show){
+    if(props.show = true){
         classAnimation.value ='scale-in-center'
+        showTooltip.value = true
     }
 })
 
 watch(() => props.show, (newVal) => {
-    if(newVal){
+    if(newVal = true){
         classAnimation.value ='scale-in-center'
+    }
+    else{
+        classAnimation.value = 'scale-out-center'
+        setTimeout(() => {
+            showTooltip.value = false
+            emits('close')
+        })
     }
 })
 

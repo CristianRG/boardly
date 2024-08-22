@@ -1,11 +1,10 @@
 <template>
-    
+
     <nav class="sidebar close" ref="sidebar">
         <header>
             <div class="image-text">
                 <span class="image" style="color: var(--text-color); font-weight: bold; font-size: 30px;"
-                @click="router.push({name:'Home'})"
-                >
+                    @click="router.push({ name: 'Home' })">
                     B
                 </span>
 
@@ -27,29 +26,29 @@
 
                 <ul class="menu-links">
                     <li class="nav-link">
-                        <a href="#">
-                            <Home class="icon"/>
+                        <router-link to="/boardly">
+                            <Home class="icon" />
                             <span class="text nav-text">Home</span>
-                        </a>
+                        </router-link>
                     </li>
 
                     <li class="nav-link">
-                        <a href="#">
-                            <BoardlyUsers class="icon"/>
+                        <a @click="modals.Members()">
+                            <BoardlyUsers class="icon" />
                             <span class="text nav-text">Members</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="#">
-                            <BoardIcon class="icon"/>
+                        <a @click="modals.Board()">
+                            <BoardIcon class="icon" />
                             <span class="text nav-text">Board</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="#">
-                            <Settings class="icon"/>
+                        <a @click="modals.Settings()">
+                            <Settings class="icon" />
                             <span class="text nav-text">Settings</span>
                         </a>
                     </li>
@@ -57,9 +56,9 @@
             </div>
 
             <div class="bottom-content">
-                <li v-if="store.logged" >
+                <li v-if="store.logged">
                     <a href="#">
-                        <LogOut class="icon"/>
+                        <LogOut class="icon" />
                         <span class="text nav-text">Logout</span>
                     </a>
                 </li>
@@ -67,8 +66,8 @@
                 <li v-if="!store.logged">
                     <a href="#">
                         <div class="signup icon"
-                        style="font-size: 13px; background: var(--primary-color); color: #fff; width: 100%;"
-                        >Sign up</div>
+                            style="font-size: 13px; background: var(--primary-color); color: #fff; width: 100%;">Sign up
+                        </div>
                     </a>
                 </li>
 
@@ -86,10 +85,11 @@
             </div>
         </div>
     </nav>
+    <ModalTemplate :show :content :extra @close="show = false" />
 </template>
 
 <script setup>
-import { onMounted, defineProps } from 'vue'
+import { onMounted, defineProps, ref, shallowRef, reactive } from 'vue'
 import store from '../../../../store/store';
 import router from '../../../../routes/routes';
 
@@ -98,11 +98,15 @@ import BoardlyUsers from '../../../icons/BoardlyUsers.vue';
 import Settings from '../../../icons/Settings.vue';
 import BoardIcon from '../../../icons/BoardIcon.vue';
 import LogOut from '../../../icons/LogOut.vue';
+import ModalTemplate from '../../../Modals/ModalTemplate.vue';
+import ModalMembers from '../Sidebar/ModalMembers.vue';
+import ModalBoard from '../Sidebar/ModalBoard.vue';
+import ModalSettings from '../Sidebar/ModalSettings.vue';
 
 import Board from '../../../../models/Board';
 import { useLocalStorage } from '../../../../composables/useLocalStorage';
 
-const {setItem} = useLocalStorage()
+const { setItem } = useLocalStorage()
 
 onMounted(() => {
     const body = document.querySelector('body')
@@ -125,8 +129,8 @@ onMounted(() => {
         } else {
             modeText.innerText = 'Dark mode'
         }
-        setItem('theme', body.classList.contains('dark')? 'dark' : 'light')
-        store.theme = body.classList.contains('dark')? 'dark' : 'light'
+        setItem('theme', body.classList.contains('dark') ? 'dark' : 'light')
+        store.theme = body.classList.contains('dark') ? 'dark' : 'light'
     })
 })
 
@@ -139,6 +143,16 @@ const props = defineProps({
     }
 })
 
+const show = ref(false)
+const content = shallowRef({})
+const extra = ref({})
+
+const modals = {
+    Members: () => { content.value = ModalMembers, show.value = true, extra.value = { owner: store.user, users: store.users } },
+    Board: () => { content.value = ModalBoard, show.value = true, extra.value = { board: store.board } },
+    Settings: () => { content.value = ModalSettings, show.value = true }
+}
+
 </script>
 
 <style scoped>
@@ -150,7 +164,7 @@ const props = defineProps({
 ::selection {
     background-color: var(--primary-color);
     color: #fff;
-  } 
+}
 
 .sidebar {
     height: 100%;
@@ -159,7 +173,7 @@ const props = defineProps({
     background: var(--sidebar-color);
     transition: var(--tran-05);
     z-index: 100;
-    
+
 }
 
 .sidebar.close {

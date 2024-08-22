@@ -195,6 +195,7 @@ function defaultBoardSections(user){
 const store = reactive({
     logged: false,
     user: null,
+    users: [],
     boards: [],
     board: null,
     theme: null,
