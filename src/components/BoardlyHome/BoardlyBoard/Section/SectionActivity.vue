@@ -1,5 +1,5 @@
 <template>
-    <div draggable="true" v-on:dragstart="drag($event, { item: activity, sectionId })" :id="activity.id"
+    <div draggable="true" v-on:dragstart="drag($event, { item: activity, id: section.id })" :id="activity.id"
         class="activity" @click="modalActive = true">
         <span>{{ activity.title }}</span>
         <div class="actions">
@@ -9,8 +9,8 @@
             <ActionsTemplate :show="actionsActive" :menuItems :coordinates @close="actionsActive = false" />
         </Teleport>
         <Teleport to="body">
-            <ModalTemplate :content="ModalDetailsActivity" :show="modalActive"
-                :extra="{ activity, section, editable }" @close="modalActive = false" />
+            <ModalTemplate :content="ModalDetailsActivity" :show="modalActive" :extra="{ activity, section, editable }"
+                @close="modalActive = false" />
         </Teleport>
         <Teleport to="body">
             <AlertTemplate v-if="alertActive" :alert />
@@ -84,8 +84,9 @@ const menuItems = reactive([
         isOpen: false,
     },
     {
+        // fix. When you create a new section doesnt appear in the actions to move
         label: 'Mover a',
-        actions: store.board.sections.map((section) => {
+        actions: reactive(store.board.sections.map((section) => {
             return {
                 title: section.title,
                 action: () => {
@@ -95,7 +96,7 @@ const menuItems = reactive([
                     localStorage.setItem('boards', JSON.stringify(store.boards))
                 }
             }
-        }),
+        })),
         isOpen: false,
     },
 ]);

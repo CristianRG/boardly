@@ -20,7 +20,7 @@ import { uuid } from 'vue-uuid';
 import Board from '../../../../models/Board.js';
 
 
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close',])
 
 const section = new BoardSection()
 
@@ -48,7 +48,7 @@ function addSection() {
 
     localStorage.setItem('boards', JSON.stringify(boards))
 
-    emit('close')
+    emit('close', {section})
 }
 
 </script>

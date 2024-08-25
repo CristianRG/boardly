@@ -7,7 +7,7 @@
         <main>
             <BoardlyBoard 
             v-if="store.board"
-            :board="store.board" />
+            :board="store.board" @scroll="handleScrollLeft"/>
         </main>
     </div>
 </template>
@@ -72,6 +72,10 @@ onMounted(() => {
     });
 })
 
+const handleScrollLeft = () => {
+    const scrollContainer = document.querySelector('main')
+    scrollContainer.scrollLeft = scrollContainer.scrollWidth
+}
 
 </script>
 

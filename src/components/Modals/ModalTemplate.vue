@@ -40,10 +40,10 @@ onMounted(() => {
     }
 })
 
-const close = () => {
+const close = (args) => {
     style.value = 'slide-out-top'
     setTimeout(() => {
-        emits('close')
+        emits('close', args)
     }, 500)
 }
 

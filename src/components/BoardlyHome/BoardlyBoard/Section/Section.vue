@@ -23,8 +23,7 @@ import Activity from '../../../../models/Activity.js';
 const props = defineProps({
     section: {
         type: BoardSection,
-        required: true,
-        default: 'unknown'
+        required: true
     }
 })
 
@@ -37,7 +36,7 @@ watch(data, (newData) => {
     const activity = Activity.fromJSON(newData.item)
 
     const newIndexSection = store.board.sections.findIndex(se => se.id === props.section.id)
-    const oldIndexSection = store.board.sections.findIndex(se => se.id === newData.sectionId)
+    const oldIndexSection = store.board.sections.findIndex(se => se.id === newData.id)
     store.activityFunctions.addActivity(store.board.sections[newIndexSection], activity)
     store.activityFunctions.removeActivity(store.board.sections[oldIndexSection], activity)
     updateActivityByDragDrop()

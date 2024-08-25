@@ -1,13 +1,8 @@
 <template>
     <div id="board">
-        <Section 
-        v-for="section in board.sections" :key="section.id"
-        :section
-        />
-        <ModalTemplate :content="ModalNewSection" :show @close="show = false"/>
-        <AddButton message="Nueva sección"
-        @click="show = true"
-        />
+        <Section v-for="section in board.sections" :key="section.id" :section />
+        <ModalTemplate :content="ModalNewSection" :show @close="handleNewSection" />
+        <AddButton message="Nueva sección" @click="show = true" />
     </div>
 </template>
 <script setup>
@@ -15,7 +10,7 @@ import Section from '../Section/Section.vue';
 import AddButton from '../../../Common/AddButton.vue';
 import ModalTemplate from '../../../Modals/ModalTemplate.vue';
 import ModalNewSection from '../Section/ModalNewSection.vue';
-import { defineProps, onMounted, ref } from 'vue'
+import { defineProps, onMounted, ref, defineEmits } from 'vue'
 
 import Board from '../../../../models/Board';
 
@@ -25,6 +20,8 @@ const props = defineProps({
         required: true
     }
 })
+
+const emits = defineEmits(['scroll'])
 //import { socket } from '../../../../socket';
 import store from '../../../../store/store';
 
@@ -40,14 +37,22 @@ import store from '../../../../store/store';
 // })
 let show = ref(false)
 
+const handleNewSection = (section) => {
+    if (section) {
+        emits('scroll')
+    }
+    show.value = false
+}
+
+
 </script>
 <style scoped>
-    #board {
-        height: 100%;
-        width: fit-content;
-        display: flex;
-        padding-left: 10px;
-        padding-right: 10px;
-        gap: 1rem;
-    }
+#board {
+    height: 100%;
+    width: fit-content;
+    display: flex;
+    padding-left: 10px;
+    padding-right: 10px;
+    gap: 1rem;
+}
 </style>
