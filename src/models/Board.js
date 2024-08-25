@@ -16,6 +16,7 @@ class Board {
         this.sections = sections?? []
         this.owner = owner
         this.users = users?? []
+        this.online = false
     }
 
     /**
@@ -31,6 +32,13 @@ class Board {
             User.fromJSON(data.owner),
             data.users.map(user => { return User.fromJSON(user) })
         )
+    }
+
+    /**
+     * @param {Boolean} status
+     */
+    setOnline(status) {
+        this.online = status
     }
 }
 

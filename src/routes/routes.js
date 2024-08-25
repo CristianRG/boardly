@@ -10,6 +10,7 @@ const routes = [
   { path: '/login', name: 'Login', component: () => import('../views/BoardlyLogin.vue') },
   { path: '/boardly', name: 'Boards', component: () => import('../views/BoardlyHome.vue') },
   { path: '/boardly/:id', name: 'Board', props: true, component: () => import('../views/BoardlyBoard.vue') },
+  { path: '/share/:id', name: 'Share', props: true, component: () => import('../views/BoardlyShareBoard.vue')},
   { path: '/:pathMatch(.*)*', name: '404', component: () => import('../views/Error404.vue') }
 ]
 

@@ -10,7 +10,7 @@ import Section from '../Section/Section.vue';
 import AddButton from '../../../Common/AddButton.vue';
 import ModalTemplate from '../../../Modals/ModalTemplate.vue';
 import ModalNewSection from '../Section/ModalNewSection.vue';
-import { defineProps, onMounted, ref, defineEmits } from 'vue'
+import { defineProps, onMounted, ref, defineEmits, watch, onUnmounted } from 'vue'
 
 import Board from '../../../../models/Board';
 
@@ -22,21 +22,9 @@ const props = defineProps({
 })
 
 const emits = defineEmits(['scroll'])
-//import { socket } from '../../../../socket';
-import store from '../../../../store/store';
+import useOnlineBoard from '../../../../composables/helpers/useOnlineBoad';
 
-// onMounted(() => {
-//     socket.connect()
-
-//     socket.emit('shareBoard', JSON.stringify(store.board))
-
-//     socket.on('receiveBoard', (board) => {
-//         const boardRecived = JSON.parse(board)
-//         console.log('received board', boardRecived)
-//     })
-// })
 let show = ref(false)
-
 const handleNewSection = (section) => {
     if (section) {
         emits('scroll')
@@ -44,6 +32,20 @@ const handleNewSection = (section) => {
     show.value = false
 }
 
+const {turnOnline, connected, disconnect} = useOnlineBoard()
+
+// listen the online property change from the board
+watch(props.board, (value) => {
+    if(value.online == true && connected.value == false){
+        turnOnline()
+    }
+})
+
+// change online property to false when leaving the board
+onUnmounted(() => {
+    disconnect()
+    console.log(connected)
+})
 
 </script>
 <style scoped>

@@ -1,12 +1,13 @@
 <template>
     <div class="modal" v-if="show" @click="attention">
         <div class="modal-content" :class="style" @click.stop>
-            <span class="close" @click="close">&times;</span>
+            <span v-if="!disableButtonClose" class="close" @click="close">&times;</span>
             <div class="content" id="content">
                 <component 
                 :is="content"
                 v-bind="extra"
                 @close="close"
+                @persist="emits('persist')"
                 ></component>
             </div>
         </div>
@@ -28,10 +29,14 @@ const props = defineProps({
     show: {
         type: Boolean,
         default: false
+    },
+    disableButtonClose: {
+        type: Boolean,
+        default: false
     }
 })
 
-const emits = defineEmits(['close'])
+const emits = defineEmits(['close', 'persist'])
 let style = ref('')
 
 onMounted(() => {
