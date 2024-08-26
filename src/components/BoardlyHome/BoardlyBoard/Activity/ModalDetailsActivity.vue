@@ -12,7 +12,7 @@
         </div>
         <ModalNewActivity v-if="edit" :activity="activity" :section :edit @close="edit = false" />
         <Teleport to="body">
-            <AlertTemplate v-if="showAlert" @close="showAlert = false" :alert/>
+            <AlertTemplate v-if="showAlert" @close="showAlert = false" :alert />
         </Teleport>
     </div>
 </template>
@@ -28,6 +28,7 @@ import BoardSection from '../../../../models/BoardSection';
 const { handleRemoveActivity } = useActivityFunctions()
 import AlertTemplate from '../../../Alerts/AlertTemplate.vue';
 import Alert from '../../../../models/Alert';
+import store from '../../../../store/store';
 
 const props = defineProps({
     activity: {
@@ -48,8 +49,11 @@ const showAlert = ref(false)
 const actions = {
     DELETE: (section, activity) => {
         showAlert.value = true
-        alert = new Alert(alert.types.warning, '', '¿Estas seguro de querer eliminar esta nota?', 
-        [Alert.action('Cancelar', alert.styles.btnDanger, () => showAlert.value = false), Alert.action('Eliminar', alert.styles.btnSuccess, () => handleRemoveActivity(section, activity))])
+        alert = new Alert(alert.types.warning, '', '¿Estas seguro de querer eliminar esta actividad?',
+            [Alert.action('Cancelar', alert.styles.btnDanger, () => showAlert.value = false), Alert.action('Eliminar', alert.styles.btnSuccess, () => {
+                handleRemoveActivity(section, activity)
+                store.notification = { message: 'Actividad eliminada por @' + store.user.name }
+            })])
     },
 }
 

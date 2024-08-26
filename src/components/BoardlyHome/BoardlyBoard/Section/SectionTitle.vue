@@ -60,6 +60,7 @@ const handleTitle = () => {
         props.section.title = newTitle
         handleUpdateBoard(store.board, store.boards)
         handleSaveInLocalStorage(store.boards)
+        store.notification = { message: 'Titulo actualizado por @' + store.user.name }
     }
 }
 
@@ -72,6 +73,7 @@ const handleSection = () => {
             handleRemoveSection(store.board, props.section)
             handleUpdateBoard(store.board, store.boards)
             handleSaveInLocalStorage(store.boards)
+            store.notification = { message: 'Sección eliminada por @' + store.user.name }
             show.value = false
         })
     ]

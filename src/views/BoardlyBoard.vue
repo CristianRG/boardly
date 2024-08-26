@@ -9,12 +9,13 @@
 </template>
 
 <script setup>
-import { defineProps, onMounted, reactive, ref } from 'vue'
+import { defineProps, onMounted, reactive, ref, watch } from 'vue'
 import store from '../store/store.js'
 
 import BoardlyHeader from '../components/BoardlyHome/BoardlyBoard/Board/BoardlyHeader.vue'
 import BoardlyBoard from '../components/BoardlyHome/BoardlyBoard/Board/BoardlyBoard.vue'
 import BoardlySidebar from '../components/BoardlyHome/BoardlyBoard/Board/BoardlySidebar.vue'
+import NotificationTemplate from '../components/Alerts/NotificationTemplate.vue'
 import Board from '../models/Board.js'
 import router from '../routes/routes.js'
 

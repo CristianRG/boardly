@@ -199,6 +199,7 @@ const store = reactive({
     boards: [],
     board: null,
     theme: null,
+    notification: {message: 'Notification'},
     commentFunctions,
     defaultBoardSections
 })

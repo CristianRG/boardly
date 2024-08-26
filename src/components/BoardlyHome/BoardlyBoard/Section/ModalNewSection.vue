@@ -38,6 +38,7 @@ function handleButton() {
     handleAddSection(store.board, section)
     handleUpdateBoard(store.board, store.boards)
     handleSaveInLocalStorage(store.boards)
+    store.notification = {message: 'Sección agregada por @' + store.user.name}
     emit('close', { section })
 }
 

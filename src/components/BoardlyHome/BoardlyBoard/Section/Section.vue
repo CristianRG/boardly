@@ -43,6 +43,7 @@ watch(data, (newData) => {
     handleRemoveActivity(oldSection, activity)
     handleUpdateBoard(store.board, store.boards)
     handleSaveInLocalStorage(store.boards)
+    store.notification = {message: 'Actividad movida por @' + store.user.name}
 })
 
 </script>

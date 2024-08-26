@@ -1,11 +1,8 @@
 <template>
     <div class="boards">
         <BoardCard v-for="board in store.boards" :board="board" />
-        <ModalTemplate  
-        :content="ModalNewBoard" :show @close="show = false"/>
-        <AddButton message="Nuevo tablero"
-        @click="show = true"
-        />
+        <ModalTemplate :content="ModalNewBoard" :show @close="show=false" />
+        <AddButton message="Nuevo tablero" @click="show = true" />
     </div>
 </template>
 <script setup>

@@ -57,6 +57,7 @@ const handleAdd = () => {
         board.users = []
         handleAddBoard(board, store.boards)
         handleSaveInLocalStorage(store.boards)
+        store.notification = {message: 'Tablero agregado por @' + store.user.name}
         emits('close')
     }
 }
@@ -68,6 +69,7 @@ const handleEdit = () => {
     else {
         handleUpdateBoard(board, store.boards)
         handleSaveInLocalStorage(store.boards)
+        store.notification = {message: 'Tablero editado por @' + store.user.name}
         emits('close')
     }
 }

@@ -60,6 +60,7 @@ const handleAdd = () => {
         handleAddActivity(props.section, activityRef)
         handleUpdateBoard(store.board, store.boards)
         handleSaveInLocalStorage(store.boards)
+        store.notification = {message: 'Actividad agregada por @' + store.user.name}
         emits('close')
     }
 }
@@ -72,6 +73,7 @@ const handleEdit = () => {
         handleUpdateActivity(props.section, activityRef)
         handleUpdateBoard(store.board, store.boards)
         handleSaveInLocalStorage(store.boards)
+        store.notification = {message: 'Actividad editada por @' + store.user.name}
         emits('close')
     }
 }

@@ -3,6 +3,9 @@ import { RouterView } from 'vue-router'
 import { useLocalStorage } from './composables/useLocalStorage'
 import { useUser } from './composables/useUser';
 import store from './store/store'
+import { ref, watch } from 'vue';
+import NotificationTemplate from './components/Alerts/NotificationTemplate.vue';
+
 const { getItem } = useLocalStorage()
 const { setUser, saveUserState } = useUser()
 
@@ -21,10 +24,24 @@ if (user) {
   saveUserState()
 }
 
+const showNotification = ref(false)
+const notification = ref(store.notification)
+
+watch(
+  () => store.notification,
+  (newValue) => {
+    showNotification.value = true
+    notification.value = newValue
+  },
+  { deep: true }
+)
+//console.log(store)
 </script>
 
 <template>
-  <RouterView></RouterView>
+  <RouterView>
+  </RouterView>
+  <NotificationTemplate :show="showNotification" :notification="notification" @close="showNotification = false" />
 </template>
 
 <style scoped></style>

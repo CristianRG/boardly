@@ -12,7 +12,6 @@
 import BoardlyBoards from '../components/BoardlyHome/BoardlyBoards.vue'
 import HomeHeader from '../components/AppHome/HomeHeader.vue';
 
-
 </script>
 
 <style scoped>

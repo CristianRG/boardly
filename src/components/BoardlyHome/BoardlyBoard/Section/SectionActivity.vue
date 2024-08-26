@@ -66,6 +66,7 @@ const moveToFunction = (sections) => sections.map((section) => {
             handleRemoveActivity(props.section, activitySelected)
             handleUpdateBoard(store.board, store.boards)
             handleSaveInLocalStorage(store.boards)
+            store.notification = { message: 'Actividad movida por @' + store.user.name }
         }
     }
 })
@@ -96,6 +97,7 @@ const menuItems = reactive([
                 handleRemoveActivity(props.section, activitySelected)
                 handleUpdateBoard(store.board, store.boards)
                 handleSaveInLocalStorage(store.boards)
+                store.notification = { message: 'Actividad eliminada por @' + store.user.name }
                 alertActive.value = false
             }))
             alertActive.value = true

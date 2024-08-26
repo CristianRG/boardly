@@ -14,8 +14,8 @@
         <span class="owner" @click="router.push({ name: 'Board', params: { id: board.id } })">{{ board.owner.name
             }}</span>
 
-        <AlertTemplate v-if="showAlert" :alert />
-        <ModalTemplate :content="ModalNewBoard" :show :extra/>
+        <AlertTemplate v-if="showAlert" :alert @close="showAlert = false" />
+        <ModalTemplate :content="ModalNewBoard" :show :extra @close="show = false" />
     </div>
 </template>
 <script setup>
@@ -56,6 +56,7 @@ const handleDeleteBoard = (board) => {
         Alert.action('Eliminar', alert.styles.btnSuccess, () => {
             handleRemoveBoard(board, store.boards)
             handleSaveInLocalStorage(store.boards)
+            store.notification = { message: 'Tablero eliminado por @' + store.user.name }
             showAlert.value = false
         })
     ]
@@ -63,7 +64,7 @@ const handleDeleteBoard = (board) => {
 }
 
 const handleEditBoard = (board) => {
-    extra.value = {board, editable: true}
+    extra.value = { board, editable: true }
     show.value = true
 }
 

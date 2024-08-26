@@ -28,8 +28,8 @@ const props = defineProps({
 @media (max-width: 1200px) {
     .button-add {
         position: fixed;
-        bottom: 50px;
-        right: 50px;
+        bottom: 10px;
+        right: 10px;
     }
 }
 
