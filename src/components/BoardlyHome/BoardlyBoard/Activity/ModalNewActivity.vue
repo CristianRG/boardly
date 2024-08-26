@@ -12,8 +12,8 @@
         </div>
         <div class="buttons-group">
             <button @click="$emit('close')" class="btn btn-danger">Cancelar</button>
-            <button v-if="!edit" @click="handleAddActivity" class="btn btn-success">Crear tarea</button>
-            <button v-else @click="handleEditActivity" class="btn btn-success">Actualizar tarea</button>
+            <button v-if="!edit" @click="handleAdd" class="btn btn-success">Crear tarea</button>
+            <button v-else @click="handleEdit" class="btn btn-success">Actualizar tarea</button>
         </div>
         <span v-if="error" style="display: block; text-align: center; color: var(--color-danger);">{{ error }}</span>
     </div>
@@ -24,6 +24,9 @@ import Activity from '../../../../models/Activity';
 import { uuid } from 'vue-uuid';
 import store from '../../../../store/store';
 import BoardSection from '../../../../models/BoardSection';
+import useActivityFunctions from '../../../../composables/helpers/useActivityFunctions';
+import { useBoardFunctions } from '../../../../composables/helpers/useBoardFunctions';
+import { useIsLoggedFuctions } from '../../../../composables/helpers/useIsLoggedFunctions';
 
 const props = defineProps({
     activity: {
@@ -37,35 +40,38 @@ const props = defineProps({
     }
 })
 
+const { handleAddActivity, handleUpdateActivity, handleFindActivity } = useActivityFunctions()
+const { handleUpdateBoard } = useBoardFunctions()
+const { handleSaveInLocalStorage } = useIsLoggedFuctions()
+
 const emits = defineEmits(['close'])
 let error = ref('')
-let activityRef = props.activity
-//const indexSection = store.board.sections.findIndex((section) => section.id == props.sectionId)
+const activityRef = Activity.fromJSON({ ...props.activity })
 
-const handleAddActivity = () => {
+const handleAdd = () => {
     if (!activityRef.title) {
-        error.value = 'El nombre de la tarea es obligatorio'
+        error = 'El nombre de la tarea es obligatorio'
     }
-    else{
+    else {
         activityRef.id = uuid.v4()
         activityRef.owner = store.user
         activityRef.comments = []
 
-        store.activityFunctions.addActivity(props.section, activityRef)
-        store.boardFunctions.updateBoard(store.board, store.boards)
-        localStorage.setItem('boards', JSON.stringify(store.boards))
+        handleAddActivity(props.section, activityRef)
+        handleUpdateBoard(store.board, store.boards)
+        handleSaveInLocalStorage(store.boards)
         emits('close')
     }
 }
 
-const handleEditActivity = () => {
+const handleEdit = () => {
     if (!activityRef.title) {
-        error.value = 'El nombre de la tarea es obligatorio'
+        error = 'El nombre de la tarea es obligatorio'
     }
     else {
-        store.activityFunctions.updateActivity(props.section, activityRef)
-        store.boardFunctions.updateBoard(store.board, store.boards)
-        localStorage.setItem('boards', JSON.stringify(store.boards))
+        handleUpdateActivity(props.section, activityRef)
+        handleUpdateBoard(store.board, store.boards)
+        handleSaveInLocalStorage(store.boards)
         emits('close')
     }
 }

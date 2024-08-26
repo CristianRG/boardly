@@ -10,7 +10,7 @@
         </Teleport>
         <Teleport to="body">
             <ModalTemplate :content="ModalDetailsActivity" :show="modalActive" :extra="{ activity, section, editable }"
-                @close="modalActive = false" />
+                @close="modalActive = false, editable = false" />
         </Teleport>
         <Teleport to="body">
             <AlertTemplate v-if="alertActive" :alert />
@@ -19,7 +19,7 @@
 </template>
 
 <script setup>
-import { defineProps, onMounted, reactive, ref } from 'vue';
+import { defineProps, onMounted, reactive, ref, watch } from 'vue';
 import Activity from '../../../../models/Activity.js';
 import { useDragDrop } from '../../../../composables/useDragDrop.js';
 import Ellipsis from '../../../icons/Ellipsis.vue';
@@ -30,7 +30,9 @@ import ModalDetailsActivity from '../Activity/ModalDetailsActivity.vue';
 import AlertTemplate from '../../../Alerts/AlertTemplate.vue';
 import Alert from '../../../../models/Alert.js';
 import BoardSection from '../../../../models/BoardSection.js';
-
+import useActivityFunctions from '../../../../composables/helpers/useActivityFunctions.js';
+import { useBoardFunctions } from '../../../../composables/helpers/useBoardFunctions.js';
+import { useIsLoggedFuctions } from '../../../../composables/helpers/useIsLoggedFunctions.js';
 const props = defineProps({
     activity: {
         type: Activity,
@@ -45,6 +47,9 @@ const props = defineProps({
 //const show = ref(modalActive.value)
 
 const { drag } = useDragDrop()
+const { handleAddActivity, handleRemoveActivity } = useActivityFunctions()
+const { handleUpdateBoard } = useBoardFunctions()
+const { handleSaveInLocalStorage } = useIsLoggedFuctions()
 
 let modalActive = ref(false)
 let actionsActive = ref(false)
@@ -52,6 +57,20 @@ let alertActive = ref(false)
 let editable = ref(false)
 let activitySelected = reactive(new Activity())
 let alert = new Alert()
+
+const moveToFunction = (sections) => sections.map((section) => {
+    return {
+        title: section.title,
+        action: () => {
+            handleAddActivity(section, activitySelected)
+            handleRemoveActivity(props.section, activitySelected)
+            handleUpdateBoard(store.board, store.boards)
+            handleSaveInLocalStorage(store.boards)
+        }
+    }
+})
+
+let moveTo = ref(null)
 
 const menuItems = reactive([
     {
@@ -74,9 +93,9 @@ const menuItems = reactive([
             alert.message = '¿Deseas eliminar esta nota?'
             alert.actions.push(Alert.action('Cancelar', alert.styles.btnDanger, () => alertActive.value = false))
             alert.actions.push(Alert.action('Confirmar', alert.styles.btnSuccess, () => {
-                store.activityFunctions.removeActivity(props.section, activitySelected)
-                store.boardFunctions.updateBoard(store.board, store.boards)
-                localStorage.setItem('boards', JSON.stringify(store.boards))
+                handleRemoveActivity(props.section, activitySelected)
+                handleUpdateBoard(store.board, store.boards)
+                handleSaveInLocalStorage(store.boards)
                 alertActive.value = false
             }))
             alertActive.value = true
@@ -84,19 +103,8 @@ const menuItems = reactive([
         isOpen: false,
     },
     {
-        // fix. When you create a new section doesnt appear in the actions to move
         label: 'Mover a',
-        actions: reactive(store.board.sections.map((section) => {
-            return {
-                title: section.title,
-                action: () => {
-                    store.activityFunctions.removeActivity(props.section, activitySelected)
-                    store.activityFunctions.addActivity(section, activitySelected)
-                    store.boardFunctions.updateBoard(store.board, store.boards)
-                    localStorage.setItem('boards', JSON.stringify(store.boards))
-                }
-            }
-        })),
+        actions: () => [],
         isOpen: false,
     },
 ]);
@@ -111,7 +119,24 @@ const trackMouse = (event, activity) => {
 
 let teleport = ref('body')
 
-onMounted(() => teleport.value = '#board')
+onMounted(() => {
+    moveTo.value = moveToFunction(store.board.sections)
+    menuItems.forEach(menuItem => {
+        if (menuItem.label == 'Mover a') {
+            menuItem.actions = moveTo.value
+        }
+    })
+    teleport.value = '#board'
+})
+
+watch(store.board.sections, (value) => {
+    moveTo.value = moveToFunction(value)
+    menuItems.forEach(menuItem => {
+        if (menuItem.label == 'Mover a') {
+            menuItem.actions = moveTo.value
+        }
+    })
+})
 
 </script>
 <style scoped>

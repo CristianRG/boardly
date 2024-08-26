@@ -199,10 +199,6 @@ const store = reactive({
     boards: [],
     board: null,
     theme: null,
-    userFunctions,
-    boardFunctions,
-    boardSectionFunctions,
-    activityFunctions,
     commentFunctions,
     defaultBoardSections
 })

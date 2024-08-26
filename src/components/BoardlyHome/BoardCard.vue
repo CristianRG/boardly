@@ -1,33 +1,36 @@
 <template>
     <div :id="board.id" class="card">
         <div class="card-header">
-            <span class="name"
-            @click="router.push({ name: 'Board', params: { id: board.id } })"
-            >
+            <span class="name" @click="router.push({ name: 'Board', params: { id: board.id } })">
                 {{ board.name }}
             </span>
             <div class="options">
-                <Edit />
-                <Delete 
-                @click="handleDeleteBoard(board)"
-                />
+                <Edit @click="handleEditBoard(board)" />
+                <Delete @click="handleDeleteBoard(board)" />
             </div>
         </div>
-        <span class="description"
-        @click="router.push({ name: 'Board', params: { id: board.id } })"
-        >{{ board.description }}</span>
-        <span class="owner"
-        @click="router.push({ name: 'Board', params: { id: board.id } })"
-        >{{ board.owner.name }}</span>
+        <span class="description" @click="router.push({ name: 'Board', params: { id: board.id } })">{{ board.description
+            }}</span>
+        <span class="owner" @click="router.push({ name: 'Board', params: { id: board.id } })">{{ board.owner.name
+            }}</span>
+
+        <AlertTemplate v-if="showAlert" :alert />
+        <ModalTemplate :content="ModalNewBoard" :show :extra/>
     </div>
 </template>
 <script setup>
-import { defineProps } from 'vue'
+import { defineProps, reactive, ref } from 'vue'
 import router from '../../routes/routes'
 import Board from '../../models/Board'
 import Edit from '../icons/Edit.vue'
 import Delete from '../icons/Delete.vue'
 import store from '../../store/store'
+import { useBoardFunctions } from '../../composables/helpers/useBoardFunctions'
+import { useIsLoggedFuctions } from '../../composables/helpers/useIsLoggedFunctions'
+import AlertTemplate from '../Alerts/AlertTemplate.vue'
+import Alert from '../../models/Alert'
+import ModalTemplate from '../Modals/ModalTemplate.vue'
+import ModalNewBoard from './ModalNewBoard.vue'
 
 const props = defineProps({
     board: {
@@ -36,10 +39,32 @@ const props = defineProps({
     }
 })
 
+const { handleRemoveBoard } = useBoardFunctions()
+const { handleSaveInLocalStorage } = useIsLoggedFuctions()
+
+const showAlert = ref(false)
+const alert = reactive(new Alert())
+const show = ref(false)
+const extra = ref({})
+
 const handleDeleteBoard = (board) => {
     // Add your delete board logic here
-    store.boardFunctions.removeBoard(board, store.boards)
-    localStorage.setItem('boards', JSON.stringify(store.boards))
+    alert.type = alert.types.warning
+    alert.message = '¿Estas seguro de querer eliminar este tablero?'
+    alert.actions = [
+        Alert.action('Cancelar', alert.styles.btnDanger, () => showAlert.value = false),
+        Alert.action('Eliminar', alert.styles.btnSuccess, () => {
+            handleRemoveBoard(board, store.boards)
+            handleSaveInLocalStorage(store.boards)
+            showAlert.value = false
+        })
+    ]
+    showAlert.value = true
+}
+
+const handleEditBoard = (board) => {
+    extra.value = {board, editable: true}
+    show.value = true
 }
 
 </script>

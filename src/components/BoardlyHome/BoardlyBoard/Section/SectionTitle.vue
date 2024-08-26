@@ -4,20 +4,23 @@
             }}</h4>
         <div id="options">
             <Edit @click="makeEditable" />
-            <Delete @click="deleteBoard()"/>
+            <Delete @click="handleSection" />
         </div>
+        <AlertTemplate v-if="show" :alert />
     </div>
 </template>
 
 <script setup>
-import { ref, nextTick, toRef } from 'vue'
-
+import { ref, nextTick, toRef, reactive } from 'vue'
 import Edit from '../../../icons/Edit.vue'
 import Delete from '../../../icons/Delete.vue'
 import BoardSection from '../../../../models/BoardSection'
 import store from '../../../../store/store'
-import Board from '../../../../models/Board'
-
+import Alert from '../../../../models/Alert'
+import AlertTemplate from '../../../Alerts/AlertTemplate.vue'
+import { useBoardFunctions } from '../../../../composables/helpers/useBoardFunctions'
+import { useIsLoggedFuctions } from '../../../../composables/helpers/useIsLoggedFunctions'
+import { useSectionFunctions } from '../../../../composables/helpers/useSectionFunctions'
 const props = defineProps({
     section: {
         type: BoardSection,
@@ -27,7 +30,12 @@ const props = defineProps({
 
 const editTitle = ref(false)
 const titleRef = ref(null)
+const show = ref(false)
 const originalTitle = toRef(props.section.title) // Referencia reactiva al título original
+const alert = reactive(new Alert())
+const { handleUpdateBoard } = useBoardFunctions()
+const { handleSaveInLocalStorage } = useIsLoggedFuctions()
+const { handleRemoveSection } = useSectionFunctions()
 
 const makeEditable = () => {
     editTitle.value = true
@@ -38,7 +46,7 @@ const makeEditable = () => {
 
 const handleBlur = () => {
     editTitle.value = false
-    updateTitle()
+    handleTitle()
 }
 
 const handleEnter = () => {
@@ -46,53 +54,28 @@ const handleEnter = () => {
     titleRef.value.blur() // Desenfoca el h4
 }
 
-const updateTitle = () => {
+const handleTitle = () => {
     const newTitle = titleRef.value.innerText.trim()
     if (newTitle !== originalTitle.value) {
-        // Actualizar el título en la base de datos aquí
-        console.log('Nuevo título:', newTitle)
-        // Aquí podrías hacer una llamada a tu API para actualizar la base de datos
-        // Por ejemplo:
-        // api.updateSectionTitle(props.section.id, newTitle)
-        // .then(response => {
-        //     console.log('Título actualizado exitosamente', response)
-        // })
-        // .catch(error => {
-        //     console.error('Error al actualizar el título', error)
-        // })
-        const indexSection = store.board.sections.findIndex(section => section.id == props.section.id)
-        store.board.sections[indexSection].title = newTitle
-
-        // save in localStorage
-        const boards = JSON.parse(localStorage.getItem('boards'))
-        const board = Board.fromJSON(boards.find(board => board.id == store.board.id))
-
-        board.sections[indexSection].title = newTitle
-
-        // replace element in boards who has the same id at the board
-        const indexBoard = boards.findIndex(board => board.id == store.board.id)
-        boards[indexBoard] = board
-
-        localStorage.setItem('boards', JSON.stringify(boards))
-         // Actualizar el valor reactivo del título original
+        props.section.title = newTitle
+        handleUpdateBoard(store.board, store.boards)
+        handleSaveInLocalStorage(store.boards)
     }
 }
 
-function deleteBoard(){
-    const indexSection = store.board.sections.findIndex(section => section.id == props.section.id)
-    store.board.sections.splice(indexSection, 1)
-
-    // save in localStorage
-    const boards = JSON.parse(localStorage.getItem('boards'))
-    const board = Board.fromJSON(boards.find(board => board.id == store.board.id))
-
-    board.sections.splice(indexSection, 1)
-
-    // replace element in boards who has the same id at the board
-    const indexBoard = boards.findIndex(board => board.id == store.board.id)
-    boards[indexBoard] = board
-
-    localStorage.setItem('boards', JSON.stringify(boards))
+const handleSection = () => {
+    alert.type = alert.types.warning
+    alert.message = '¿Estas seguro de querer eliminar esta sección?'
+    alert.actions = [
+        Alert.action('Cancelar', alert.styles.btnDanger, () => { show.value = false }),
+        Alert.action('Eliminar', alert.styles.btnSuccess, () => {
+            handleRemoveSection(store.board, props.section)
+            handleUpdateBoard(store.board, store.boards)
+            handleSaveInLocalStorage(store.boards)
+            show.value = false
+        })
+    ]
+    show.value = true
 }
 
 </script>

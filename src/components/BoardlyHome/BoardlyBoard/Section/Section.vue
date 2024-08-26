@@ -2,8 +2,7 @@
     <div @drop="drop($event)" @dragover.prevent @dragenter.prevent :key="section.id" class="section scale-in-center">
         <SectionTitle :section="section" />
         <div class="section-activities">
-            <SectionActivity v-for="activity in section.activities" :key="activity.id" :activity="activity"
-                :section />
+            <SectionActivity v-for="activity in section.activities" :key="activity.id" :activity="activity" :section />
         </div>
         <ActivityAddNew :section />
     </div>
@@ -16,10 +15,12 @@ import ActivityAddNew from '../Activity/ActivityAddNew.vue';
 import { defineProps, watch } from 'vue';
 import BoardSection from '../../../../models/BoardSection.js';
 import { useDragDrop } from '../../../../composables/useDragDrop.js';
-import { useLocalStorage } from '../../../../composables/useLocalStorage.js'; 
 import store from '../../../../store/store.js';
 import Activity from '../../../../models/Activity.js';
-
+import useActivityFunctions from '../../../../composables/helpers/useActivityFunctions'
+import { useSectionFunctions } from '../../../../composables/helpers/useSectionFunctions';
+import { useBoardFunctions } from '../../../../composables/helpers/useBoardFunctions'
+import { useIsLoggedFuctions } from '../../../../composables/helpers/useIsLoggedFunctions.js';
 const props = defineProps({
     section: {
         type: BoardSection,
@@ -28,18 +29,20 @@ const props = defineProps({
 })
 
 const { data, drop } = useDragDrop()
-
-const { updateActivityByDragDrop } = useLocalStorage()
+const { handleAddActivity, handleRemoveActivity } = useActivityFunctions()
+const { handleFindSection } = useSectionFunctions()
+const { handleUpdateBoard } = useBoardFunctions()
+const { handleSaveInLocalStorage } = useIsLoggedFuctions()
 
 watch(data, (newData) => {
 
     const activity = Activity.fromJSON(newData.item)
-
-    const newIndexSection = store.board.sections.findIndex(se => se.id === props.section.id)
-    const oldIndexSection = store.board.sections.findIndex(se => se.id === newData.id)
-    store.activityFunctions.addActivity(store.board.sections[newIndexSection], activity)
-    store.activityFunctions.removeActivity(store.board.sections[oldIndexSection], activity)
-    updateActivityByDragDrop()
+    const newSection = handleFindSection(store.board, props.section.id)
+    const oldSection = handleFindSection(store.board, newData.id)
+    handleAddActivity(newSection, activity)
+    handleRemoveActivity(oldSection, activity)
+    handleUpdateBoard(store.board, store.boards)
+    handleSaveInLocalStorage(store.boards)
 })
 
 </script>

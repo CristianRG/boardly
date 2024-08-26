@@ -7,53 +7,42 @@
         </div>
         <div class="buttons-group">
             <button type="button" class="btn btn-danger" @click="$emit('close')">Cancelar</button>
-            <button type="button" class="btn btn-success" @click="addSection()">Aceptar</button>
+            <button type="button" class="btn btn-success" @click="handleButton">Aceptar</button>
         </div>
     </div>
 </template>
 <script setup>
 import { ref, defineEmits } from 'vue'
 import store from '../../../../store/store.js';
-
 import BoardSection from '../../../../models/BoardSection.js';
 import { uuid } from 'vue-uuid';
-import Board from '../../../../models/Board.js';
-
+import { useSectionFunctions } from '../../../../composables/helpers/useSectionFunctions';
+import { useBoardFunctions } from '../../../../composables/helpers/useBoardFunctions';
+import { useIsLoggedFuctions } from '../../../../composables/helpers/useIsLoggedFunctions'
 
 const emit = defineEmits(['close',])
-
 const section = new BoardSection()
-
 const sectionTitle = ref(section.title)
+const { handleAddSection } = useSectionFunctions()
+const { handleUpdateBoard } = useBoardFunctions()
+const { handleSaveInLocalStorage } = useIsLoggedFuctions()
 
 
-function addSection() {
+function handleButton() {
     section.id = uuid.v4()
     section.title = sectionTitle.value
     section.activities = []
     section.description = ''
     section.owner = store.user
 
-    store.board.sections.push(section)
-
-    // save in localStorage...
-    const boards = JSON.parse(localStorage.getItem('boards'))
-    const board = Board.fromJSON(boards.find(board => board.id == store.board.id))
-
-    board.sections.push(section)
-
-    // replace element in boards who has the same id at the board
-    const indexBoard = boards.findIndex(board => board.id == store.board.id)
-    boards[indexBoard] = board
-
-    localStorage.setItem('boards', JSON.stringify(boards))
-
-    emit('close', {section})
+    handleAddSection(store.board, section)
+    handleUpdateBoard(store.board, store.boards)
+    handleSaveInLocalStorage(store.boards)
+    emit('close', { section })
 }
 
 </script>
 <style scoped>
-
 .content {
     display: block;
 }
@@ -88,5 +77,4 @@ input[type="text"]:focus,
 textarea:focus {
     border-bottom: 1px solid #623EE6;
 }
-
 </style>

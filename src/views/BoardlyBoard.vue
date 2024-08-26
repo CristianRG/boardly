@@ -1,19 +1,15 @@
 <template>
     <div id="mainpage">
-        <BoardlySidebar 
-        v-if="store.board"
-        :board="store.board"/>
+        <BoardlySidebar v-if="store.board" :board="store.board" />
         <BoardlyHeader />
         <main>
-            <BoardlyBoard 
-            v-if="store.board"
-            :board="store.board" @scroll="handleScrollLeft"/>
+            <BoardlyBoard v-if="store.board" :board="store.board" @scroll="handleScrollLeft" />
         </main>
     </div>
 </template>
 
 <script setup>
-import { defineProps, onMounted } from 'vue'
+import { defineProps, onMounted, reactive, ref } from 'vue'
 import store from '../store/store.js'
 
 import BoardlyHeader from '../components/BoardlyHome/BoardlyBoard/Board/BoardlyHeader.vue'
@@ -29,14 +25,18 @@ const props = defineProps({
     }
 })
 
-const JSONboards = JSON.parse(localStorage.getItem('boards'))
-store.boards = JSONboards.map(b => { return Board.fromJSON(b) })
-const board = JSONboards.find(board => board.id === props.id)
+let board
+
+if (!store.logged) {
+    const JSONboards = JSON.parse(localStorage.getItem('boards'))
+    store.boards = JSONboards.map(b => { return Board.fromJSON(b) })
+    board = JSONboards.find(board => board.id === props.id)
+}
 
 if (!board) {
-    router.push({name: '404'})
+    router.push({ name: '404' })
 }
-else{
+else {
     store.board = Board.fromJSON(board)
 }
 
@@ -100,12 +100,11 @@ main {
     /* background: #35333C; */
 }
 
-main:active{
+main:active {
     cursor: grabbing;
 }
 
 ::-webkit-scrollbar {
     display: none;
 }
-
 </style>

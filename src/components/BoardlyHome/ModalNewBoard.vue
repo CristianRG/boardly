@@ -13,7 +13,8 @@
         </div>
         <div class="buttons-group">
             <button @click="$emit('close')" class="btn btn-danger">Cancelar</button>
-            <button @click="handleAddBoard()" class="btn btn-success">Crear tablero</button>
+            <button v-if="!editable" @click="handleAdd" class="btn btn-success">Crear tablero</button>
+            <button v-if="editable" @click="handleEdit" class="btn btn-success">Actualizar tablero</button>
         </div>
         <span v-if="error"
         style="display: block; text-align: center; color: var(--color-danger);"
@@ -21,16 +22,31 @@
     </div>
 </template>
 <script setup>
-import { reactive, ref } from 'vue';
+import { reactive, ref, defineProps } from 'vue';
 import Board from '../../models/Board'
 import { uuid } from 'vue-uuid';
+import { useBoardFunctions } from '../../composables/helpers/useBoardFunctions';
+import { useIsLoggedFuctions } from '../../composables/helpers/useIsLoggedFunctions';
+
+const props = defineProps({
+    board: {
+        type: Board,
+        required: false,
+        default: new Board('', '', '', [], store.user, [])
+    },
+    editable: Boolean
+})
+
+const {handleAddBoard, handleUpdateBoard} = useBoardFunctions()
+const {handleSaveInLocalStorage} = useIsLoggedFuctions()
+
 import store from '../../store/store';
-const board = reactive(new Board())
+const board = reactive(Board.fromJSON({...props.board}))
 let error = ref(null)
 
 const emits = defineEmits(['close'])
 
-const handleAddBoard = () => {
+const handleAdd = () => {
     if (!board.name) {
         error.value = 'Debes ingresar un nombre para el tablero'
     }
@@ -39,8 +55,19 @@ const handleAddBoard = () => {
         board.owner = store.user
         board.sections = store.defaultBoardSections(board.owner)
         board.users = []
-        store.boards.push(board)
-        localStorage.setItem('boards', JSON.stringify(store.boards))
+        handleAddBoard(board, store.boards)
+        handleSaveInLocalStorage(store.boards)
+        emits('close')
+    }
+}
+
+const handleEdit = () => {
+    if(!board.name){
+        error.value = 'Debes ingresar un nombre para el tablero'
+    }
+    else {
+        handleUpdateBoard(board, store.boards)
+        handleSaveInLocalStorage(store.boards)
         emits('close')
     }
 }

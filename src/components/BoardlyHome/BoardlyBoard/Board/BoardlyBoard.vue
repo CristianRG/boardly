@@ -10,7 +10,7 @@ import Section from '../Section/Section.vue';
 import AddButton from '../../../Common/AddButton.vue';
 import ModalTemplate from '../../../Modals/ModalTemplate.vue';
 import ModalNewSection from '../Section/ModalNewSection.vue';
-import { defineProps, onMounted, ref, defineEmits, watch, onUnmounted } from 'vue'
+import { defineProps, ref, defineEmits, watch, onUnmounted } from 'vue'
 
 import Board from '../../../../models/Board';
 
@@ -44,7 +44,6 @@ watch(props.board, (value) => {
 // change online property to false when leaving the board
 onUnmounted(() => {
     disconnect()
-    console.log(connected)
 })
 
 </script>

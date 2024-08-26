@@ -43,11 +43,20 @@ const useActivityFunctions = () => {
             newBoardSection,
         }
     }
+    /**
+     * @param {BoardSection} boardSection
+     * @param {Activity} activity
+     */
+    const handleFindActivity = (boardSection, activity) => {
+        const index = boardSection.activities.findIndex(act => act.id === activity.id)
+        return boardSection.activities[index]
+    }
     return {
         handleAddActivity,
         handleUpdateActivity,
         handleRemoveActivity,
         handleMoveActivity,
+        handleFindActivity
     }
 }
 
