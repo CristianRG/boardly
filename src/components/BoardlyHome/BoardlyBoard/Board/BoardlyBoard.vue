@@ -10,7 +10,7 @@ import Section from '../Section/Section.vue';
 import AddButton from '../../../Common/AddButton.vue';
 import ModalTemplate from '../../../Modals/ModalTemplate.vue';
 import ModalNewSection from '../Section/ModalNewSection.vue';
-import { defineProps, ref, defineEmits, watch, onUnmounted } from 'vue'
+import { defineProps, ref, defineEmits, watch, onUnmounted, onMounted } from 'vue'
 
 import Board from '../../../../models/Board';
 
@@ -23,6 +23,7 @@ const props = defineProps({
 
 const emits = defineEmits(['scroll'])
 import useOnlineBoard from '../../../../composables/helpers/useOnlineBoad';
+import store from '../../../../store/store';
 
 let show = ref(false)
 const handleNewSection = (section) => {
@@ -32,12 +33,20 @@ const handleNewSection = (section) => {
     show.value = false
 }
 
-const {turnOnline, connected, disconnect} = useOnlineBoard()
+const {turnOnline, connected, disconnect, shareBoard} = useOnlineBoard()
+
+onMounted(() => {
+    if(props.board.online && props.board.owner.id == store.user.id){
+        turnOnline()
+        shareBoard()
+    }
+})
 
 // listen the online property change from the board
 watch(props.board, (value) => {
-    if(value.online == true && connected.value == false){
+    if(value.online == true && connected.value == false && value.owner.id == store.user.id){
         turnOnline()
+        shareBoard()
     }
 })
 

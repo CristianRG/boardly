@@ -41,6 +41,7 @@ const {handleAddBoard, handleUpdateBoard} = useBoardFunctions()
 const {handleSaveInLocalStorage} = useIsLoggedFuctions()
 
 import store from '../../store/store';
+import Notification from '../../models/NotificationModel';
 const board = reactive(Board.fromJSON({...props.board}))
 let error = ref(null)
 
@@ -57,7 +58,7 @@ const handleAdd = () => {
         board.users = []
         handleAddBoard(board, store.boards)
         handleSaveInLocalStorage(store.boards)
-        store.notification = {message: 'Tablero agregado por @' + store.user.name}
+        store.notifications.push(new Notification(uuid.v4(), 'Tablero agregado por @' + store.user.name))
         emits('close')
     }
 }
@@ -69,7 +70,7 @@ const handleEdit = () => {
     else {
         handleUpdateBoard(board, store.boards)
         handleSaveInLocalStorage(store.boards)
-        store.notification = {message: 'Tablero editado por @' + store.user.name}
+        store.notifications.push(new Notification(uuid.v4(), 'Tablero editado por @' + store.user.name))
         emits('close')
     }
 }

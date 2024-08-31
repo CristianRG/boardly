@@ -6,6 +6,7 @@ import Board from "../models/Board.js"
 import BoardSection from "../models/BoardSection.js"
 import Activity from "../models/Activity.js"
 import Comment from "../models/Comment.js"
+import Notification from "../models/NotificationModel.js"
 
 const userFunctions = {
     /**
@@ -199,9 +200,10 @@ const store = reactive({
     boards: [],
     board: null,
     theme: null,
-    notification: {message: 'Notification'},
-    commentFunctions,
-    defaultBoardSections
+    notifications: [],
+    defaultBoardSections,
+    URL_BASE: 'http://localhost:3000',
+    SERVICE_API: '/api/v1/boardly'
 })
 
 

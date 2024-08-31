@@ -19,8 +19,8 @@ export const useFetch = () => {
             },
             body: JSON.stringify(data.value)
         })
-        if (!response.ok) {
-            throw new Error('HTTP error! status: ${response.status}')
+        if(response.status == 404){
+            resultResponse.value = {status: response.status, response: await response.json()}
         }
         resultResponse.value = await response.json()
     }

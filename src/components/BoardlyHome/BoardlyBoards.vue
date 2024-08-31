@@ -8,15 +8,17 @@
 <script setup>
 import store from '../../store/store';
 import BoardCard from './BoardCard.vue';
-import Board from '../../models/Board';
+// import Board from '../../models/Board';
 import ModalTemplate from '../Modals/ModalTemplate.vue';
 import ModalNewBoard from './ModalNewBoard.vue';
 import AddButton from '../Common/AddButton.vue';
 import { ref } from 'vue';
 
-const JSONboards = localStorage.getItem('boards') ? JSON.parse(localStorage.getItem('boards')) : []
-const boards = JSONboards.length != 0 ? JSONboards.map((board) => { return Board.fromJSON(board) }) : []
-store.boards = boards
+// console.log(store.boards)
+
+// const JSONboards = localStorage.getItem('boards') ? JSON.parse(localStorage.getItem('boards')) : []
+// const boards = JSONboards.length != 0 ? JSONboards.map((board) => { return Board.fromJSON(board) }) : []
+// store.boards = boards
 const show = ref(false)
 
 </script>

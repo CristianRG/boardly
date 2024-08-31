@@ -4,6 +4,13 @@ import store from '../store/store'
 import AppHome from '../views/AppHome.vue'
 import Board from '../models/Board'
 import { nextTick } from 'vue'
+import { handleLocalStorage } from '../helpers/handleLocalStorage'
+import { handleRoutes } from '../helpers/handleRoutes'
+import Notification from '../models/NotificationModel'
+import { uuid } from 'vue-uuid'
+
+const {handleGetBoards} = handleLocalStorage()
+const {beforeEachNotLogged} = handleRoutes()
 
 const routes = [
   { path: '/', name: 'Home', component: AppHome },
@@ -20,18 +27,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.name === 'Login' && store.logged) {
-    next(from.path)
-  }
-  else if (to.name === 'Boards' && !store.user) {
-    next('/login')
-  }
-  else if (to.name === 'Board' && !store.user) {
-    next('/login')
-  }
-  else {
-    next()
-  }
+  beforeEachNotLogged(to, from, next)
 })
 
 router.afterEach((to, from, failure) => {

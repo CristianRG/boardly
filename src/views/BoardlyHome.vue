@@ -2,6 +2,8 @@
     <div id="mainpage">
         <HomeHeader />
         <main>
+            <h1 style="margin: 0%; margin-left: 10px; margin-bottom: 5px; color: var(--text-color); font-size: 25px;">Recientes</h1>
+            <h2 style="margin: 0%; margin-left: 10px; margin-bottom: 5px; color: var(--text-color); font-size: 25px;">Tu espacio de trabajo</h2>
             <BoardlyBoards />
         </main>
     </div>

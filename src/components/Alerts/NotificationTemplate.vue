@@ -28,13 +28,15 @@ const animation = ref('slide-in-right');
 const startCloseAnimation = () => {
     animation.value = 'slide-out-right';
     setTimeout(() => {
-        emits('close');
+        emits('close', props.notification);
     }, 500); // Duración de la animación de salida
 };
 
 const close = () => {
     startCloseAnimation()
 }
+
+setTimeout(() => startCloseAnimation(), 2500)
 
 watch(() => props.notification, (value) => {
     animation.value = 'slide-in-right';
@@ -59,9 +61,9 @@ watch(() => props.show, (newVal) => {
     height: fit-content;
     background: #242526;
     color: #fff;
-    position: absolute;
+    /* position: absolute;
     bottom: 60px;
-    right: 10px;
+    right: 10px; */
     border-radius: 5px;
 }
 

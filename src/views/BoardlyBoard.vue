@@ -28,11 +28,10 @@ const props = defineProps({
 
 let board
 
-if (!store.logged) {
-    const JSONboards = JSON.parse(localStorage.getItem('boards'))
-    store.boards = JSONboards.map(b => { return Board.fromJSON(b) })
-    board = JSONboards.find(board => board.id === props.id)
-}
+// const JSONboards = JSON.parse(localStorage.getItem('boards'))
+// store.boards = JSONboards.map(b => { return Board.fromJSON(b) })
+board = store.boards.find(b => b.id == props.id)
+
 
 if (!board) {
     router.push({ name: '404' })

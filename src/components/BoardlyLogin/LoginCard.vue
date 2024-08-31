@@ -9,7 +9,7 @@
                 <label for="password">Contraseña</label>
                 <input type="password" id="password" v-model="password" />
                 <button class="btn btn-danger" @click="router.push({ name: 'Home' })">Cancelar</button>
-                <button class="btn btn-success" type="submit">Login</button>
+                <button class="btn btn-success" type="submit" @click="handleLogin">Login</button>
             </form>
             <span>¿Aún no tines una cuenta? <a href="#" @click="showLogForm = false">Click aquí</a> para
                 registrarte</span>
@@ -39,6 +39,9 @@
 <script setup>
 import router from '../../routes/routes'
 import { ref, watch } from 'vue'
+import { useFetch } from '../../composables/useFetch';
+import store from '../../store/store';
+const {URL, data, fetchData, resultResponse, postData} = useFetch()
 const username = ref('')
 const password = ref('')
 const signupUsername = ref('')
@@ -46,6 +49,17 @@ const signupEmail = ref('')
 const signupPassword = ref('')
 const showLogForm = ref(true)
 const errorMessage = ref('')
+
+const handleLogin = async () => {
+    //URL.value = `${store.URL_BASE}/ping`
+    URL.value = `${store.URL_BASE}${store.SERVICE_API}/user/login`
+    data.value = {email: username.value, password: password.value}
+    await postData()
+    if(resultResponse.value.status == 404){
+        errorMessage.value = resultResponse.value.message
+    }
+    console.log(resultResponse.value)
+}
 
 </script>
 
