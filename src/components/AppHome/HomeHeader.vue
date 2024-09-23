@@ -13,15 +13,15 @@
                     <span class="switch"></span>
                 </div>
             </li>
-            <li v-if="!store.user">
+            <li v-if="!store.user && !store.logged">
                 <a href="#" class="guess" @click="showAlert = true">Invitado</a>
             </li>
             <li v-if="store.user" style="width: 3.5rem;">
                 <BoardlyUser :user="store.user" />
             </li>
-            <li v-if="!store.logged">
-                <router-link to="/login" class="login">Acceder</router-link>
-            </li>
+            <!-- <li v-if="!store.logged || !store.user">
+                <a @click="router.push({name: 'Login'})" class="login">Acceder</a>
+            </li> -->
         </ul>
     </nav>
     <Teleport to="body">
@@ -53,8 +53,6 @@ onMounted(() => {
         setItem('theme', body.classList.contains('dark') ? 'dark' : 'light')
         store.theme = body.classList.contains('dark') ? 'dark' : 'light'
     })
-
-
 })
 
 function continueAsGuess() {
@@ -62,13 +60,13 @@ function continueAsGuess() {
     saveUserState()
     router.push({ name: 'Boards' })
 }
-
 const showAlert = ref(false)
 
 const alert = new Alert()
 alert.type = alert.types.info
 alert.title = 'Invitado'
-alert.message = `Al continuar como invitado los tableros que creas, secciones y actividades serán guardadas en el almacenamiento local de tu navegador.`
+alert.message = `Por el momento no podemos hacer un registro de sus datos. Sin embargo, puede continuar como invitado. Su espacio de trabajo, así como
+                sus tableros serán almacenados de forma local en su navegador.`
 alert.actions = [
     Alert.action('Cancelar', alert.styles.btnDanger, () => showAlert.value = false),
     Alert.action('Aceptar', alert.styles.btnSuccess, () => {continueAsGuess(), showAlert.value = false})

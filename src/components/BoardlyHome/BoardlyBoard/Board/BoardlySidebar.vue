@@ -46,12 +46,12 @@
                         </a>
                     </li>
 
-                    <li class="nav-link">
+                    <!-- <li class="nav-link">
                         <a @click="modals.Settings()">
                             <Settings class="icon" />
                             <span class="text nav-text">Settings</span>
                         </a>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
 
@@ -63,13 +63,13 @@
                     </a>
                 </li>
 
-                <li v-if="!store.logged">
+                <!-- <li v-if="!store.logged">
                     <a href="#">
                         <div class="signup icon"
                             style="font-size: 13px; background: var(--primary-color); color: #fff; width: 100%;">Sign up
                         </div>
                     </a>
-                </li>
+                </li> -->
 
                 <li class="mode">
                     <div class="sun-moon">
