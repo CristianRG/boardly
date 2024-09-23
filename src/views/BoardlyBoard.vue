@@ -18,6 +18,7 @@ import BoardlySidebar from '../components/BoardlyHome/BoardlyBoard/Board/Boardly
 import NotificationTemplate from '../components/Alerts/NotificationTemplate.vue'
 import Board from '../models/Board.js'
 import router from '../routes/routes.js'
+import stack from '../store/stack.js'
 
 const props = defineProps({
     id: {
@@ -70,12 +71,45 @@ onMounted(() => {
         const walk = (x - startX) * 2; // Ajusta la velocidad de desplazamiento multiplicando por un número mayor o menor
         scrollContainer.scrollLeft = scrollLeft - walk;
     });
+
+    // event to listen when CTRL-Z is pressed to get the last item
+    window.addEventListener('keydown', (event) => {
+        if(event.ctrlKey && event.key == 'z'){
+            handleCTRLZ()
+        }
+    })
+
+    window.addEventListener('keydown', (event) => {
+        if(event.ctrlKey && event.key == 'y'){
+            handleCTRLY()
+        }
+    })
 })
 
 const handleScrollLeft = () => {
     const scrollContainer = document.querySelector('main')
     scrollContainer.scrollLeft = scrollContainer.scrollWidth
 }
+
+const handleCTRLZ = () => {
+    if(stack.oldDataStack.length > 0){
+        store.board = stack.oldDataStack.pop()
+        stack.lastDataStack.push(store.board)
+    }
+}
+
+const handleCTRLY = () => {
+    if(stack.lastDataStack.length > 0){
+        store.board = stack.lastDataStack.pop()
+        stack.oldDataStack.push(store.board)
+    }
+}
+
+watch((store.board), (newData, oldData) => {
+    stack.lastData = (Board.fromJSON({...newData}))
+    stack.oldDataStack.push(Board.fromJSON({...oldData}))
+})
+
 
 </script>
 

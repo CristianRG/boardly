@@ -203,7 +203,7 @@ const store = reactive({
     notifications: [],
     defaultBoardSections,
     URL_BASE: 'http://localhost:3000',
-    SERVICE_API: '/api/v1/boardly'
+    SERVICE_API: 'http://localhost:3000/api/v1/boardly'
 })
 
 
