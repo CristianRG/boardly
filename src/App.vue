@@ -3,12 +3,16 @@ import { RouterView } from 'vue-router'
 import { useLocalStorage } from './composables/useLocalStorage'
 import { useUser } from './composables/useUser';
 import store from './store/store'
-import { onMounted, ref, watch } from 'vue';
 import NotificationTemplate from './components/Alerts/NotificationTemplate.vue';
-import Notification from './models/NotificationModel';
+import { useCookies } from './composables/useCookies';
+import { onMounted, watch } from 'vue';
+import { useFetch } from './composables/useFetch';
+import User from './models/User';
 
 const { getItem } = useLocalStorage()
 const { setUser, saveUserState } = useUser()
+const { getCookie } = useCookies()
+const { postData } = useFetch()
 
 const theme = getItem('theme')
 
@@ -19,34 +23,43 @@ if (theme) {
   }
 }
 
-const user = getItem('user')
-if (user) {
-  setUser(user, store.logged)
-  saveUserState()
+const token = getCookie('token')
+if (token) {
+  store.logged = true
+  onMounted(async () => {
+    try {
+      const response = await postData({ URL: `${store.SERVICE_API}/user/auth`, body: { token: token } })
+      if (response.status == 200) {
+        const result = await response.json()
+        store.user = User.fromJSON(result.publicUser)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  })
+}
+else {
+  store.logged = false
+  const user = getItem('user')
+  if (user) {
+    setUser(user, store.logged)
+    saveUserState()
+  }
 }
 
-let notificationsRef = null
-
-
-
-//onMounted(() => {notificationsRef = document.getElementById('notifications'), console.log(notificationsRef)})
+//let notificationsRef = null
 
 const removeNotification = (notification) => {
-  const index = store.notifications.findIndex(n => n.id == notification.id)
-  console.log(notificationsRef)
-  //document.querySelector('body').firstChild()
-  // console.log(index, store.notifications)
-  // store.notifications.shift()
+  store.notifications.shift()
 }
 
 watch(
   () => store.notifications,
   (newValue) => {
-    notificationsRef = document.getElementById('notifications')
+    //notificationsRef = document.getElementById('notifications')
   },
   { deep: true }
 )
-//console.log(store)
 </script>
 
 <template>
