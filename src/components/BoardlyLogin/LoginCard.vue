@@ -4,14 +4,14 @@
             <!-- Your login form goes here -->
             <h1 style="margin-bottom: 2rem; color: #623EE6;">Inicia sesión</h1>
             <form @submit.prevent="login">
-                <label for="username">Usuario</label>
-                <input type="text" id="username" v-model="username" />
+                <label for="email">Correo electrónico</label>
+                <input type="email" id="email" v-model="email" />
                 <label for="password">Contraseña</label>
                 <input type="password" id="password" v-model="password" />
                 <button class="btn btn-danger" @click="router.push({ name: 'Home' })">Cancelar</button>
                 <button class="btn btn-success" type="submit" @click="handleLogin">Login</button>
             </form>
-            <span>¿Aún no tines una cuenta? <a href="#" @click="showLogForm = false">Click aquí</a> para
+            <span>¿Aún no tines una cuenta? <a @click="showLogForm = false">Click aquí</a> para
                 registrarte</span>
         </div>
         <div class="signup" v-if="!showLogForm">
@@ -25,9 +25,9 @@
                 <label for="signupPassword">Contraseña</label>
                 <input type="password" id="signupPassword" v-model="signupPassword" />
                 <button class="btn btn-danger" @click="router.push({ name: 'Home' })">Cancelar</button>
-                <button class="btn btn-success" type="submit">Signup</button>
+                <button class="btn btn-success" type="submit" @click="handleSignup">Signup</button>
             </form>
-            <span>¿Ya tienes una cuenta? <a href="#" @click="showLogForm = true">Click aquí</a> para iniciar
+            <span>¿Ya tienes una cuenta? <a @click="showLogForm = true">Click aquí</a> para iniciar
                 sesión</span>
         </div>
         <div class="message">
@@ -38,11 +38,16 @@
 
 <script setup>
 import router from '../../routes/routes'
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import { useFetch } from '../../composables/useFetch';
+import { useCookies } from '../../composables/useCookies';
 import store from '../../store/store';
-const {URL, data, fetchData, resultResponse, postData} = useFetch()
-const username = ref('')
+import Notification from '../../models/NotificationModel';
+import { uuid } from 'vue-uuid';
+import User from '../../models/User';
+const { postData } = useFetch()
+const { setCookie } = useCookies()
+const email = ref('')
 const password = ref('')
 const signupUsername = ref('')
 const signupEmail = ref('')
@@ -51,14 +56,27 @@ const showLogForm = ref(true)
 const errorMessage = ref('')
 
 const handleLogin = async () => {
-    //URL.value = `${store.URL_BASE}/ping`
-    URL.value = `${store.URL_BASE}${store.SERVICE_API}/user/login`
-    data.value = {email: username.value, password: password.value}
-    await postData()
-    if(resultResponse.value.status == 404){
-        errorMessage.value = resultResponse.value.message
+    let result
+    const response = await postData({ URL: `${store.SERVICE_API}/user/login`, body: {email: email.value, password: password.value } })
+    if (response.status == 200) {
+        result = await response.json()
+        setCookie('token', result.token.value, { path: '/', 'max-age': result.token.expiresIn })
+        store.user = User.fromJSON(result.user)
+        store.notifications.push(new Notification(uuid.v1(), 'Successfully signed up'))
+        router.push({ name: 'Boards' })
     }
-    console.log(resultResponse.value)
+}
+
+const handleSignup = async () => {
+    let result
+    const response = await postData({ URL: `${store.SERVICE_API}/user/signup`, body: { name: signupUsername.value, email: signupEmail.value, password: signupPassword.value } })
+    if (response.status == 201) {
+        result = await response.json()
+        setCookie('token', result.token.value, { path: '/', 'max-age': result.token.expiresIn })
+        store.user = User.fromJSON(result.user)
+        store.notifications.push(new Notification(uuid.v1(), 'Successfully signed up'))
+        router.push({ name: 'Boards' })
+    }
 }
 
 </script>
@@ -88,7 +106,8 @@ const handleLogin = async () => {
     justify-content: center;
 }
 
-.login h1, .signup h5{
+.login h1,
+.signup h5 {
     font-size: 30px;
 }
 
