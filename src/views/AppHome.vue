@@ -2,18 +2,18 @@
     <HomeHeader />
     <main>
         <section style="margin-left: 12px;">
-            <h1 style="font-size: 40px; margin: 0%;">Boarldy Note App</h1>
-            <p style="font-size: 20px;">Una aplicación de notas minimalista.
+            <h1 style="font-size: 60px; margin: 0%;">Boarldy Note App</h1>
+            <p style="font-size: 30px;">Una aplicación de notas minimalista.
                 <br>Organiza tus actividades en flujos de trabajo.
-                <br><strong>Simple, sencilla y eficiente.</strong>
+                <br><strong>Simple, sencillo y eficiente.</strong>
                 <br>
                 <br>¡Comienza ahora!
             </p>
-            <button class="btn btn-success" @click="getBoards">Comenzar</button>
+            <button class="btn btn-success" style="font-size: 15px;" @click="getBoards">Comenzar</button>
         </section>
         <section>
-            <img v-if="store.theme == 'dark'" src="/public/img/dark_design_boardly.webp" alt="dark_design">
-            <img v-if="store.theme == 'light'" src="/public/img/light_design_boardly.webp" alt="ligth_design">
+            <img v-if="store.theme == 'dark'" src="/img/dark_design_boardly.webp" alt="dark_design">
+            <img v-if="store.theme == 'light'" src="/img/light_design_boardly.webp" alt="ligth_design">
             <span style="display: inline-block; padding-left: 10px; font-size: 20px; font-style: italic;">Take notes, organize your thoughts</span>
         </section>
     </main>
