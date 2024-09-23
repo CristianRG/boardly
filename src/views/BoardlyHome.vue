@@ -3,7 +3,7 @@
         <HomeHeader />
         <main>
             <!-- <h1 style="margin: 0%; margin-left: 10px; margin-bottom: 5px; color: var(--text-color); font-size: 25px;">Recientes</h1> -->
-            <h2 style="margin: 0%; margin-left: 10px; margin-bottom: 5px; color: var(--text-color); font-size: 20px; font-weight: bold;">Tu espacio de trabajo</h2>
+            <h2 style="margin: 0%; margin-left: 10px; margin-bottom: 5px; margin-top: 15px; color: var(--text-color); font-size: 20px; font-weight: bold;">Tu espacio de trabajo</h2>
             <BoardlyBoards />
         </main>
     </div>

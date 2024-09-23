@@ -1,7 +1,7 @@
 <template>
     <div id="title">
-        <h4 :contenteditable="editTitle" ref="titleRef" @blur="handleBlur" @keydown.enter="handleEnter">{{ section.title
-            }}</h4>
+        <h4 :contenteditable="editTitle" ref="titleRef" @blur="handleBlur" @keydown.enter="handleEnter">{{
+            section.title}}</h4>
         <div id="options">
             <Edit @click="makeEditable" />
             <Delete @click="handleSection" />
@@ -92,16 +92,27 @@ const handleSection = () => {
 }
 
 h4 {
+    height: 23px;
+    width: 12rem;
     color: var(--text-color);
     font-size: 20px;
     font-weight: bold;
     margin: 0;
     user-select: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 h4:focus {
     outline: none;
     border-bottom: 1px solid var(--primary-color);
+}
+
+@media (max-width: 390px) {
+    h4 {
+        width: 10rem;
+    }
 }
 
 #options {

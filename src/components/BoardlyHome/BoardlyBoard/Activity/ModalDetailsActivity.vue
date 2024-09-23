@@ -1,13 +1,13 @@
 <template>
     <div class="content">
         <div class="details" v-if="!edit">
-            <span style="font-size: 30px; font-weight: bold; color: var(--text-color);">{{ activity.title }}</span>
-            <p style="font-size: 18px; color:var(--text-color);">{{ activity.content }}</p>
+            <span class="title">{{ activity.title }}</span>
+            <p class="content-text">{{ activity.content }}</p>
 
             <div class="options">
                 <Edit @click="edit = true" />
                 <Delete @click="actions.DELETE(section, activity)" />
-                <Forward />
+                <!-- <Forward /> -->
             </div>
         </div>
         <ModalNewActivity v-if="edit" :activity="activity" :section :edit @close="edit = false" />
@@ -61,6 +61,25 @@ const actions = {
 <style scoped>
 .content {
     display: block;
+}
+
+.title {
+    display: inline-block;
+    font-size: 30px;
+    font-weight: bold;
+    color: var(--text-color);
+    word-break: break-word; /* Fuerza a romper las palabras largas */
+    overflow-wrap: break-word; /* Asegura que las palabras largas se dividan */
+    white-space: normal; /* Permite que el texto se ajuste y salte a la siguiente línea */
+    text-overflow: ellipsis; /* En caso de desbordar, muestra '...' */
+}
+
+.content-text {
+    font-size: 18px;
+    color: var(--text-color);
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
 }
 
 .options {

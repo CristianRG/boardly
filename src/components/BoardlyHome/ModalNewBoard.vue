@@ -1,6 +1,7 @@
 <template>
     <div class="content">
-        <span style="font-size: 30px;">Nuevo tablero</span>
+        <span v-if="!editable" style="font-size: 30px;">Nuevo tablero</span>
+        <span v-if="editable" style="font-size: 30px;">Editar tablero</span>
         <div class="form-group" style="margin-top: 1rem;">
             <label for="name">Nombre del tablero</label>
             <input type="text" id="name" v-model="board.name" />
