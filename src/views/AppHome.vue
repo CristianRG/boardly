@@ -2,8 +2,8 @@
     <HomeHeader />
     <main>
         <section style="margin-left: 12px;">
-            <h1 style="font-size: 60px; margin: 0%;">Boarldy Note App</h1>
-            <p style="font-size: 30px;">Una aplicación de notas minimalista.
+            <h1 style="margin: 0%;">Boarldy Note App</h1>
+            <p>Una aplicación de notas minimalista.
                 <br>Organiza tus actividades en flujos de trabajo.
                 <br><strong>Simple, sencillo y eficiente.</strong>
                 <br>
@@ -14,7 +14,8 @@
         <section>
             <img v-if="store.theme == 'dark'" src="/img/dark_design_boardly.webp" alt="dark_design">
             <img v-if="store.theme == 'light'" src="/img/light_design_boardly.webp" alt="ligth_design">
-            <span style="display: inline-block; padding-left: 10px; font-size: 20px; font-style: italic;">Take notes, organize your thoughts</span>
+            <span style="display: inline-block; padding-left: 10px; font-size: 20px; font-style: italic;">Take notes,
+                organize your thoughts</span>
         </section>
     </main>
     <HomeFooter />
@@ -77,6 +78,15 @@ main {
         display: flex;
         flex-direction: column;
         justify-content: center;
+        overflow: hidden;
+
+        & h1 {
+            font-size: 60px;
+        }
+
+        & p {
+            font-size: 30px;
+        }
 
         & button {
             width: fit-content;
@@ -84,4 +94,55 @@ main {
     }
 }
 
+@media (max-width: 1000px) {
+    main {
+        flex-direction: column;
+
+        & section {
+            width: 100%;
+            height: 50%;
+        }
+
+        & section:nth-child(1){
+            
+            & h1 {
+                font-size: 30px;
+            }
+
+            & p {
+                font-size: 20px;
+            }
+        }
+
+
+        & section:nth-child(2) {
+            flex-direction: row;
+            align-items: center;
+
+            & img {
+                width: 60%;
+            }
+
+            & span {
+                font-size: 20px;
+            }
+        }
+    }
+}
+
+@media (max-width: 700px) {
+    
+    main {
+        & section:nth-child(1){
+            
+            & h1 {
+                font-size: 30px;
+            }
+
+            & p {
+                font-size: 18px;
+            }
+        }
+    }
+}
 </style>
