@@ -47,6 +47,8 @@ const { setItem } = useLocalStorage()
 onMounted(() => {
     const body = document.querySelector('body')
     const modeSwitch = body.querySelector('.toggle-switch')
+    setItem('theme', body.classList.contains('dark') ? 'dark' : 'light')
+    store.theme = body.classList.contains('dark') ? 'dark' : 'light'
 
     modeSwitch.addEventListener('click', () => {
         body.classList.toggle('dark')
