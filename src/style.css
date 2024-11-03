@@ -4,7 +4,7 @@
   --primary-color: #695cfe;
   --primary-color-light: #f6f5ff;
   --toggle-color: #ddd;
-  --text-color: #707070; 
+  --text-color: #707070;
   --color-danger: #a52e2e;
   --color-success: #695cfe;
   --selected: #3a3b3c;
@@ -319,5 +319,65 @@ textarea:focus {
     transform: scale(1);
     -webkit-animation-timing-function: ease-out;
     animation-timing-function: ease-out;
+  }
+}
+
+.toastui-editor-contents p {
+  color: var(--text-color);
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+}
+
+.toastui-editor-defaultUI {
+  margin-top: 1rem;
+  padding-bottom: 12px;
+  border-color: var(--text-color);
+
+  & .toastui-editor-defaultUI-toolbar {
+    background: none;
+    border-color: var(--text-color);
+
+    & .toastui-editor-toolbar-group {
+
+      & .heading toastui-editor-toolbar-icons {
+        border: none;
+      }
+    }
+
+    & button {
+      border-color: var(--text-color);
+      color: var(--text-color);
+    }
+  }
+}
+
+
+.toastui-editor-dropdown-toolbar {
+  background: var(--modal-color);
+  position: relative;
+  left: -350px;
+}
+
+.toastui-editor-ww-container {
+  background: none;
+}
+
+.toastui-editor-contents h1,
+.toastui-editor-contents h2,
+.toastui-editor-contents h3,
+.toastui-editor-contents h4,
+.toastui-editor-contents h5,
+.toastui-editor-contents h6 {
+  color: var(--text-color);
+}
+
+.toastui-editor-mode-switch {
+  background: none;
+  border-color: var(--text-color);
+
+  & .tab-item {
+    background: none;
+    border-color: var(--text-color);
+    color: var(--text-color);
   }
 }

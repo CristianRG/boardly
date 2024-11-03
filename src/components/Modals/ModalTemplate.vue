@@ -78,21 +78,24 @@ watch(() => props.show, (newVal) => {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.1);
     user-select: none;
+    display: flex;
+    align-items: center;
 }
 
 .modal-content {
+    width: 80%;
+    height: fit-content;
     background: var(--modal-color);
     margin: 15% auto;
     padding: 20px;
     border: 1px solid var(--text-color);
     border-radius: 5px;
-    max-width: 400px;
     color: var(--text-color);
 }
 
 .content {
     width: 100%;
-    height: fit-content;
+    height: calc(100% - 15px);
     display: flex;
     flex-direction: column;
     justify-content: center;

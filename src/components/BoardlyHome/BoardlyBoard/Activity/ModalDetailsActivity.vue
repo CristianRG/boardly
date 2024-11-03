@@ -2,13 +2,13 @@
     <div class="content">
         <div class="details" v-if="!edit">
             <span class="title">{{ activity.title }}</span>
-            <p class="content-text">{{ activity.content }}</p>
-
-            <div class="options">
-                <Edit @click="edit = true" />
-                <Delete @click="actions.DELETE(section, activity)" />
-                <!-- <Forward /> -->
-            </div>
+            <div class="divider"></div>
+            <Viewer :content="activity.content" />
+        </div>
+        <div class="options" v-if="!edit">
+            <Edit @click="edit = true" />
+            <Delete @click="actions.DELETE(section, activity)" />
+            <!-- <Forward /> -->
         </div>
         <ModalNewActivity v-if="edit" :activity="activity" :section :edit @close="edit = false" />
         <Teleport to="body">
@@ -29,6 +29,7 @@ const { handleRemoveActivity } = useActivityFunctions()
 import AlertTemplate from '../../../Alerts/AlertTemplate.vue';
 import Alert from '../../../../models/Alert';
 import store from '../../../../store/store';
+import Viewer from '../../../ToastEditor/Viewer.vue';
 
 const props = defineProps({
     activity: {
@@ -61,6 +62,11 @@ const actions = {
 <style scoped>
 .content {
     display: block;
+    
+    & .details {
+        height: calc(100% - 32px);
+        overflow-y: scroll;
+    }
 }
 
 .title {
@@ -68,10 +74,14 @@ const actions = {
     font-size: 30px;
     font-weight: bold;
     color: var(--text-color);
-    word-break: break-word; /* Fuerza a romper las palabras largas */
-    overflow-wrap: break-word; /* Asegura que las palabras largas se dividan */
-    white-space: normal; /* Permite que el texto se ajuste y salte a la siguiente línea */
-    text-overflow: ellipsis; /* En caso de desbordar, muestra '...' */
+    word-break: break-word;
+    /* Fuerza a romper las palabras largas */
+    overflow-wrap: break-word;
+    /* Asegura que las palabras largas se dividan */
+    white-space: normal;
+    /* Permite que el texto se ajuste y salte a la siguiente línea */
+    text-overflow: ellipsis;
+    /* En caso de desbordar, muestra '...' */
 }
 
 .content-text {
@@ -85,5 +95,6 @@ const actions = {
 .options {
     display: flex;
     justify-content: end;
+    position: relative;
 }
 </style>

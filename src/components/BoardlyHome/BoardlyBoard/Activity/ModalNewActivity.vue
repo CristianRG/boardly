@@ -2,14 +2,9 @@
     <div class="content">
         <span v-if="!edit" style="font-size: 30px;">Nuevo</span>
         <span v-else style="font-size: 30px;">Editar</span>
-        <div class="form-group" style="margin-top: 1rem;">
-            <label for="name">Nombre de la tarea</label>
-            <input type="text" id="name" v-model="activityRef.title" />
-        </div>
-        <div class="form-group">
-            <label for="description">Contenido de la tarea (Opcional)</label>
-            <textarea style="height: 5rem;" id="description" maxlength="300" v-model="activityRef.content" />
-        </div>
+        <label for="name" style="margin-top: 1rem;">Nombre de la tarea</label>
+        <input type="text" id="name" v-model="activityRef.title" />
+        <Editor :content="activityRef.content" @update="handleUpdate"/>
         <div class="buttons-group">
             <button @click="$emit('close')" class="btn btn-danger">Cancelar</button>
             <button v-if="!edit" @click="handleAdd" class="btn btn-success">Crear tarea</button>
@@ -27,6 +22,7 @@ import BoardSection from '../../../../models/BoardSection';
 import useActivityFunctions from '../../../../composables/helpers/useActivityFunctions';
 import { useBoardFunctions } from '../../../../composables/helpers/useBoardFunctions';
 import { useIsLoggedFuctions } from '../../../../composables/helpers/useIsLoggedFunctions';
+import Editor from '../../../ToastEditor/Editor.vue';
 
 const props = defineProps({
     activity: {
@@ -48,9 +44,13 @@ const emits = defineEmits(['close'])
 let error = ref('')
 const activityRef = Activity.fromJSON({ ...props.activity })
 
+const handleUpdate = (content) => {
+    activityRef.content = content
+}
+
 const handleAdd = () => {
     if (!activityRef.title) {
-        error = 'El nombre de la tarea es obligatorio'
+        error.value = 'El nombre de la tarea es obligatorio'
     }
     else {
         activityRef.id = uuid.v4()
@@ -60,20 +60,20 @@ const handleAdd = () => {
         handleAddActivity(props.section, activityRef)
         handleUpdateBoard(store.board, store.boards)
         handleSaveInLocalStorage(store.boards)
-        store.notification = {message: 'Actividad agregada por @' + store.user.name}
+        store.notification = { message: 'Actividad agregada por @' + store.user.name }
         emits('close')
     }
 }
 
 const handleEdit = () => {
     if (!activityRef.title) {
-        error = 'El nombre de la tarea es obligatorio'
+        error.value = 'El nombre de la tarea es obligatorio'
     }
     else {
         handleUpdateActivity(props.section, activityRef)
         handleUpdateBoard(store.board, store.boards)
         handleSaveInLocalStorage(store.boards)
-        store.notification = {message: 'Actividad editada por @' + store.user.name}
+        store.notification = { message: 'Actividad editada por @' + store.user.name }
         emits('close')
     }
 }
