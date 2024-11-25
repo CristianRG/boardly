@@ -92,6 +92,7 @@ const menuItems = reactive([
         quickAction: () => {
             alert.type = alert.types.warning
             alert.message = '¿Deseas eliminar esta nota?'
+            alert.actions.length = 0
             alert.actions.push(Alert.action('Cancelar', alert.styles.btnDanger, () => alertActive.value = false))
             alert.actions.push(Alert.action('Confirmar', alert.styles.btnSuccess, () => {
                 handleRemoveActivity(props.section, activitySelected)

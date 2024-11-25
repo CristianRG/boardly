@@ -20,7 +20,6 @@
 import Activity from '../../../../models/Activity';
 import Edit from '../../../icons/Edit.vue';
 import Delete from '../../../icons/Delete.vue';
-import Forward from '../../../icons/Forward.vue';
 import ModalNewActivity from './ModalNewActivity.vue';
 import { ref } from 'vue';
 import useActivityFunctions from '../../../../composables/helpers/useActivityFunctions';
