@@ -83,7 +83,7 @@ watch(() => props.show, (newVal) => {
 }
 
 .modal-content {
-    width: 80%;
+    width: 50%;
     height: fit-content;
     background: var(--modal-color);
     margin: 15% auto;
@@ -91,6 +91,18 @@ watch(() => props.show, (newVal) => {
     border: 1px solid var(--text-color);
     border-radius: 5px;
     color: var(--text-color);
+}
+
+@media (max-width: 800px) {
+    .modal-content {
+        width: 70%;
+    }
+}
+
+@media (max-width: 600px) {
+    .modal-content {
+        width: 80%;
+    }
 }
 
 .content {

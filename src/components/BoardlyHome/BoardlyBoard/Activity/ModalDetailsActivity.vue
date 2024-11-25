@@ -62,11 +62,12 @@ const actions = {
 <style scoped>
 .content {
     display: block;
-    
-    & .details {
-        height: calc(100% - 32px);
-        overflow-y: scroll;
-    }
+}
+
+.content .details {
+    min-height: 5rem; 
+    max-height: 30rem; 
+    overflow-y: auto; 
 }
 
 .title {

@@ -14,7 +14,7 @@
     </div>
 </template>
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import Activity from '../../../../models/Activity';
 import { uuid } from 'vue-uuid';
 import store from '../../../../store/store';
@@ -77,7 +77,19 @@ const handleEdit = () => {
         emits('close')
     }
 }
-
+onMounted(() => {
+    // toastui-editor-dropdown-toolbar
+    document.querySelector('.content').addEventListener('click', (ev) => {
+        const toolbar = document.querySelector('.toastui-editor-dropdown-toolbar')
+        const toolbarButton = document.querySelector('.more')
+        if(ev.target != toolbarButton && toolbar.style.display != "none"){
+            toolbar.style.display = "none"
+        }
+        if(ev.target == toolbarButton && toolbar.style.display == "none"){
+            toolbar.style.display = "flex"
+        }
+    })
+})
 </script>
 <style scoped>
 .content {

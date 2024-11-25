@@ -2,8 +2,6 @@
     <div id="mainpage">
         <HomeHeader />
         <main>
-            <Editor @update="captureChange"/>
-            <Viewer :content="editorExample"/>
             <!-- <h1 style="margin: 0%; margin-left: 10px; margin-bottom: 5px; color: var(--text-color); font-size: 25px;">Recientes</h1> -->
             <h2 style="margin: 0%; margin-left: 10px; margin-bottom: 5px; margin-top: 15px; color: var(--text-color); font-size: 20px; font-weight: bold;">Tu espacio de trabajo</h2>
             <BoardlyBoards />
@@ -15,13 +13,6 @@
 
 import BoardlyBoards from '../components/BoardlyHome/BoardlyBoards.vue'
 import HomeHeader from '../components/AppHome/HomeHeader.vue';
-import Editor from '../components/ToastEditor/Editor.vue';
-import Viewer from '../components/ToastEditor/Viewer.vue';
-import { ref } from 'vue';
-const editorExample = ref('')
-const captureChange = (change) => {
-    editorExample.value = change
-}
 </script>
 
 <style scoped>

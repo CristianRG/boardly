@@ -354,8 +354,6 @@ textarea:focus {
 
 .toastui-editor-dropdown-toolbar {
   background: var(--modal-color);
-  position: relative;
-  left: -350px;
 }
 
 .toastui-editor-ww-container {
@@ -380,4 +378,34 @@ textarea:focus {
     border-color: var(--text-color);
     color: var(--text-color);
   }
+}
+
+.toastui-editor-md-tab-container {
+  background: var(--modal-color);
+}
+
+.toastui-editor-tabs {
+  background: var(--modal-color);
+}
+
+.toastui-editor-md-tab-container .tab-item {
+  background: var(--modal-color);
+}
+
+.toastui-editor-md-tab-container .tab-item.active {
+  background: var(--color-success);
+  color: var(--text-color);
+}
+
+.toastui-editor-defaultUI .toastui-editor-md-tab-container {
+  background: var(--modal-color);
+}
+
+.toastui-editor-mode-switch .tab-item.active {
+  background: var(--color-success);
+  color: var(--text-color);
+}
+
+.ProseMirror {
+  color: var(--text-color);
 }
